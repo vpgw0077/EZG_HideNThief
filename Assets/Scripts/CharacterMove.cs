@@ -15,6 +15,7 @@ public class CharacterMove : MonoBehaviour
 
     public bool isGrounded;
 
+    //테스트
 
 
 
@@ -41,8 +42,6 @@ public class CharacterMove : MonoBehaviour
     {
 
         Move();
-        
-
 
     }
 
