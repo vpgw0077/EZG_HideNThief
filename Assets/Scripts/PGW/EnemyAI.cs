@@ -15,12 +15,18 @@ public class EnemyAI : MonoBehaviour
 
     public float Distance;
     bool isAware = false;
+    public bool isStuned;
     public Vector3 wanderPoint;
+
+    float StunTime = 5f;
+    public float CurrentTime;
+
     NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
     {
+        CurrentTime = 0;
         agent = GetComponent<NavMeshAgent>();
         Player = GameObject.FindGameObjectWithTag("Player");
         wanderPoint = RandomWanderPoint();
@@ -31,7 +37,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isAware)
+        if (isAware && !isStuned)
         {
             agent.SetDestination(Player.transform.position);
             agent.speed = ChaceSpeed;
@@ -47,6 +53,7 @@ public class EnemyAI : MonoBehaviour
 
         }
 
+        Stun();
 
 
     }
@@ -83,17 +90,39 @@ public class EnemyAI : MonoBehaviour
 
     }
 
+    public void Stun()
+    {
+        if (isStuned)
+        {
+            agent.enabled = false;
+            isAware = false;
+            CurrentTime += Time.deltaTime;
+
+            if (CurrentTime >= StunTime)
+            {
+                agent.enabled = true;
+                isStuned = false;
+                CurrentTime = 0;
+            }
+        }
+
+
+    }
+
     public void Wander()
     {
+        if (!isStuned)
+        {
+            agent.speed = wanderSpeed;
+            if (Vector3.Distance(transform.position, wanderPoint) < 3f)
+            {
+                wanderPoint = RandomWanderPoint();
+            }
+            else
+            {
+                agent.SetDestination(wanderPoint);
+            }
 
-        agent.speed = wanderSpeed;
-        if (Vector3.Distance(transform.position, wanderPoint) < 3f)
-        {
-            wanderPoint = RandomWanderPoint();
-        }
-        else
-        {
-            agent.SetDestination(wanderPoint);
         }
 
 
