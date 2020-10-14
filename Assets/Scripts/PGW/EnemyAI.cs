@@ -14,12 +14,13 @@ public class EnemyAI : MonoBehaviour
     public float ChaceSpeed;
 
     public float Distance;
-    bool isAware = false;
     public bool isStuned;
+    public bool isBlind;
     public Vector3 wanderPoint;
+    public float CurrentTime;
 
     float StunTime = 5f;
-    public float CurrentTime;
+    bool isAware = false;
 
     NavMeshAgent agent;
 
@@ -30,6 +31,7 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         Player = GameObject.FindGameObjectWithTag("Player");
         wanderPoint = RandomWanderPoint();
+
 
 
     }
@@ -52,10 +54,13 @@ public class EnemyAI : MonoBehaviour
             gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
 
         }
+        
 
-        Stun();
+    }
 
-
+    public void DrawAttention(Vector3 SoundSpot)
+    {
+        wanderPoint = SoundSpot;
     }
 
     public void CheckDistance()
@@ -75,7 +80,7 @@ public class EnemyAI : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Linecast(transform.position, Player.transform.position, out hit, -1))
                 {
-                    if (hit.transform.CompareTag("Player"))
+                    if (hit.transform.CompareTag("Player") && !isBlind)
                     {
                         OnAware();
                     }
@@ -89,23 +94,19 @@ public class EnemyAI : MonoBehaviour
         isAware = true;
 
     }
-
-    public void Stun()
+    public IEnumerator Stun()
     {
         if (isStuned)
         {
             agent.enabled = false;
             isAware = false;
-            CurrentTime += Time.deltaTime;
 
-            if (CurrentTime >= StunTime)
-            {
-                agent.enabled = true;
-                isStuned = false;
-                CurrentTime = 0;
-            }
+        yield return new WaitForSeconds(StunTime);
         }
 
+        agent.enabled = true;
+        isStuned = false;
+        Wander();
 
     }
 
@@ -114,7 +115,7 @@ public class EnemyAI : MonoBehaviour
         if (!isStuned)
         {
             agent.speed = wanderSpeed;
-            if (Vector3.Distance(transform.position, wanderPoint) < 3f)
+            if (Vector3.Distance(transform.position, wanderPoint) < 2f)
             {
                 wanderPoint = RandomWanderPoint();
             }
