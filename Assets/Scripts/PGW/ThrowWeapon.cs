@@ -44,7 +44,7 @@ public class ThrowWeapon : MonoBehaviour
         if (theThrowWeapon == WeaponType.Rock)
         {
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 20f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 100f);
 
             foreach (var coll in colls)
             {
