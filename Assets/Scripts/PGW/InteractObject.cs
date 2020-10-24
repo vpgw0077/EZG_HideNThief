@@ -9,10 +9,17 @@ public class InteractObject : MonoBehaviour
 
     RaycastHit hit;
     public MissionCreate theMission;
+
+    RockController theRock;
+    SmokeShellController theSmoke;
+    FlashBangController theFlash;
     // Start is called before the first frame update
     void Start()
     {
         theMission = FindObjectOfType<MissionCreate>();
+        theRock = GetComponentInChildren<RockController>();
+        theSmoke = GetComponentInChildren<SmokeShellController>();
+        theFlash = GetComponentInChildren<FlashBangController>();
         
     }
 
@@ -42,6 +49,24 @@ public class InteractObject : MonoBehaviour
                 {
                     ++theMission.CurrentGascan;
                     Destroy(hit.transform.gameObject);
+                    
+                }
+                else if (hit.transform.CompareTag("Rock") && !(theRock.HoldCount >= theRock.MaxCount))
+                {
+                    theRock.HoldCount += 1;
+                    hit.transform.gameObject.SetActive(false);
+
+                }
+                else if (hit.transform.CompareTag("FlashBang") && !(theFlash.HoldCount >= theFlash.MaxCount))
+                {
+                    theFlash.HoldCount += 1;
+                    hit.transform.gameObject.SetActive(false);
+
+                }
+                else if (hit.transform.CompareTag("SmokeShell") && !(theSmoke.HoldCount >= theSmoke.MaxCount))
+                {
+                    theSmoke.HoldCount += 1;
+                    hit.transform.gameObject.SetActive(false);
 
                 }
 

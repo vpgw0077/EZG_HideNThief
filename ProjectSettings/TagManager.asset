@@ -8,6 +8,9 @@ TagManager:
   - GasCan
   - SpawnZone
   - Enemy
+  - SmokeShell
+  - Rock
+  - FlashBang
   layers:
   - Default
   - TransparentFX
@@ -17,9 +20,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - Item
   - 
   - 
   - 

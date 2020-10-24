@@ -11,10 +11,7 @@ public class FlashLight : MonoBehaviour
     void Update()
     {
         TryOn();
-        if (isON)
-        {
-            print("ggg");
-        }
+
     }
 
     public void TryOn()

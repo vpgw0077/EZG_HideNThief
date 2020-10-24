@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ThrowWeapon : MonoBehaviour
 {
+    float Countdown = 2f;
     public enum WeaponType
     {
         FlashBang,
@@ -14,17 +15,21 @@ public class ThrowWeapon : MonoBehaviour
     public WeaponType theThrowWeapon;
     private void Start()
     {
-        InvokeRepeating("FlashBang", 0, 10f);
-        Invoke("ThrowRock", 0);
-        SmokeShell();
+        StartCoroutine(GrenadeCooking());
     }
+    IEnumerator GrenadeCooking()
+    {
+        yield return new WaitForSeconds(Countdown);
+        GrenadeTrigger();
 
-    public void FlashBang()
+
+    }
+    public void GrenadeTrigger()
     {
         if (theThrowWeapon == WeaponType.FlashBang)
         {
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 10f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 20f);
 
             foreach (var coll in colls)
             {
@@ -36,6 +41,11 @@ public class ThrowWeapon : MonoBehaviour
 
                 }
             }
+        }
+        if (theThrowWeapon == WeaponType.SmokeShell)
+        {
+            gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            StartCoroutine(SmokeOff());
         }
     }
 
@@ -58,19 +68,17 @@ public class ThrowWeapon : MonoBehaviour
         }
     }
 
-    public void SmokeShell()
-    {
-        if (theThrowWeapon == WeaponType.SmokeShell)
-        {
-            gameObject.transform.GetChild(0).gameObject.SetActive(true);
-            StartCoroutine(SmokeOff());
-        }
-    }
-
     IEnumerator SmokeOff()
     {
         yield return new WaitForSeconds(10f);
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(!collision.transform.CompareTag("Player") && !collision.transform.CompareTag("Enemy"))
+        {
+            ThrowRock();
+        }
     }
 
 }

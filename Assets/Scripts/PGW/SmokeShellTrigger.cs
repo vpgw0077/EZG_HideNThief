@@ -6,10 +6,7 @@ public class SmokeShellTrigger : MonoBehaviour
 {
     EnemyAI theEnemy;
 
-    private void Update()
-    {
-        //Gizmos.DrawCube(transform.position, new Vector3(20, 3, 20));
-    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Enemy"))
@@ -17,6 +14,7 @@ public class SmokeShellTrigger : MonoBehaviour
             theEnemy = other.GetComponent<EnemyAI>();
             theEnemy.isBlind = true;
         }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -27,9 +25,5 @@ public class SmokeShellTrigger : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawCube(transform.position, new Vector3(20, 3, 20));
-    }
 
 }
