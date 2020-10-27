@@ -29,7 +29,7 @@ public class FirstPersonMovement : MonoBehaviour
                 if (Stamina_Bar.value > 0)
                 {
                     Movespeed = 15f;
-                    Stamina_Bar.value -= 0.004f;
+                    Stamina_Bar.value -= 0.001f;
                     recoverTime = 0;
                 }
                 else if (Stamina_Bar.value == 0)
