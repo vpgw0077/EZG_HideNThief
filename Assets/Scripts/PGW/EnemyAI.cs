@@ -19,15 +19,20 @@ public class EnemyAI : MonoBehaviour
     public Vector3 wanderPoint;
     public float CurrentTime;
 
+    public Animator anim;
+
     float StunTime = 5f;
     bool isAware = false;
 
     NavMeshAgent agent;
 
+    Vector3 CheckStuck = new Vector3(0, 0, 0);
+
     // Start is called before the first frame update
     void Start()
     {
         CurrentTime = 0;
+        anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         Player = GameObject.FindGameObjectWithTag("Player");
         wanderPoint = RandomWanderPoint();
@@ -39,11 +44,17 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (agent.velocity == CheckStuck && anim.GetBool("LookAround")==false) // 끼임 확인
+        {
+            wanderPoint = RandomWanderPoint();
+        }
+
         if (isAware && !isStuned)
         {
             agent.SetDestination(Player.transform.position);
             agent.speed = ChaceSpeed;
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
+            anim.SetBool("Chase", true);
+
 
         }
 
@@ -51,10 +62,12 @@ public class EnemyAI : MonoBehaviour
         {
             Wander();
             SearchForPlayer();
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            anim.SetBool("Chase", false);
+
 
         }
-        
+
+
 
     }
 
@@ -117,6 +130,7 @@ public class EnemyAI : MonoBehaviour
             agent.speed = wanderSpeed;
             if (Vector3.Distance(transform.position, wanderPoint) < 2f)
             {
+                StartCoroutine(LookAround());
                 wanderPoint = RandomWanderPoint();
             }
             else
@@ -126,6 +140,14 @@ public class EnemyAI : MonoBehaviour
 
         }
 
+    }
+    IEnumerator LookAround()
+    {
+        agent.isStopped = true;
+        anim.SetBool("LookAround", true);
+        yield return new WaitForSeconds(3.5f);
+        anim.SetBool("LookAround", false);
+        agent.isStopped = false;
 
     }
 
