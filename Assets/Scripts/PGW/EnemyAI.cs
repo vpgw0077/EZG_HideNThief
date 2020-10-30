@@ -22,7 +22,7 @@ public class EnemyAI : MonoBehaviour
     public Animator anim;
 
     float StunTime = 5f;
-    bool isAware = false;
+    public bool isAware = false;
 
     NavMeshAgent agent;
 
@@ -44,7 +44,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (agent.velocity == CheckStuck && anim.GetBool("LookAround")==false) // 끼임 확인
+        if (agent.velocity == CheckStuck && anim.GetBool("LookAround") == false) // 끼임 확인
         {
             wanderPoint = RandomWanderPoint();
         }
@@ -74,6 +74,7 @@ public class EnemyAI : MonoBehaviour
     public void DrawAttention(Vector3 SoundSpot)
     {
         wanderPoint = SoundSpot;
+        Wander();
     }
 
     public void CheckDistance()
@@ -93,7 +94,8 @@ public class EnemyAI : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Linecast(transform.position, Player.transform.position, out hit, -1))
                 {
-                    if (hit.transform.CompareTag("Player") && !isBlind)
+                    Debug.Log(hit.transform.tag);
+                    if (hit.transform.CompareTag("Player") && !isBlind && !isStuned)
                     {
                         OnAware();
                     }
@@ -104,21 +106,31 @@ public class EnemyAI : MonoBehaviour
 
     public void OnAware()
     {
+        if (agent.isStopped)
+        {
+            anim.SetBool("LookAround", false);
+            agent.isStopped = false;
+
+        }
         isAware = true;
+
 
     }
     public IEnumerator Stun()
     {
+        StopCoroutine("LookAround");
         if (isStuned)
         {
-            agent.enabled = false;
             isAware = false;
+            agent.enabled = false;
+            anim.SetBool("Stun", true);
 
-        yield return new WaitForSeconds(StunTime);
+            yield return new WaitForSeconds(StunTime);
         }
 
         agent.enabled = true;
         isStuned = false;
+        anim.SetBool("Stun", false);
         Wander();
 
     }

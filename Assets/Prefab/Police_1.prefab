@@ -4589,7 +4589,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   viewDistance: 20
   wanderRadius: 20
-  wanderSpeed: 3
+  wanderSpeed: 5
   ChaceSpeed: 5
   Distance: 0
   isStuned: 0
@@ -4597,6 +4597,7 @@ MonoBehaviour:
   wanderPoint: {x: 0, y: 0, z: 0}
   CurrentTime: 0
   anim: {fileID: 0}
+  isAware: 0
 --- !u!1 &5669473956016739213
 GameObject:
   m_ObjectHideFlags: 0

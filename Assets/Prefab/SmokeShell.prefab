@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 1938522041410765114}
   - component: {fileID: 5416886526328256982}
   - component: {fileID: 2236189651079372725}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -181,5 +181,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 20
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}

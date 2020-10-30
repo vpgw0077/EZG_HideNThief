@@ -24,7 +24,7 @@ public abstract class GrenadeController : MonoBehaviour
     void Start()
     {
         StartCoroutine(PrepareCoroutine());
-        HoldCount = 1;
+        HoldCount = 5;
     }
 
     public IEnumerator PrepareCoroutine()
