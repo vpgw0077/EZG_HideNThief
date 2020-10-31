@@ -11,14 +11,14 @@ public class GroundCheck : MonoBehaviour
         isGrounded = Physics.Raycast(transform.position, Vector3.down, maxGroundDistance);
     }
 
-    void OnDrawGizmosSelected()
+   /* void OnDrawGizmosSelected()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, maxGroundDistance))
             Debug.DrawLine(transform.position, hit.point, Color.white);
         else
             Debug.DrawLine(transform.position, transform.position + Vector3.down * maxGroundDistance, Color.red);
-    }
+    }*/
 
 
     public static GroundCheck Create(Transform parent)

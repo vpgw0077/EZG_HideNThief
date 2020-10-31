@@ -17,10 +17,12 @@ public class ItemManager : MonoBehaviour
 
 
     public Grenade[] grenades; // 투척무기 리스트
+    public Energy_Drink[] drinks;
 
 
 
     public Dictionary<string, Grenade> grenadeDictionary = new Dictionary<string, Grenade>();
+    public Dictionary<string, Energy_Drink> drinkDictionary = new Dictionary<string, Energy_Drink>();
 
 
 
@@ -28,6 +30,7 @@ public class ItemManager : MonoBehaviour
     public RockController theRockController;
     public FlashBangController theFlashController;
     public SmokeShellController theSmokeController;
+    public DrinkController theDrinkController;
 
 
 
@@ -37,6 +40,10 @@ public class ItemManager : MonoBehaviour
         for (int i = 0; i < grenades.Length; i++)
         {
             grenadeDictionary.Add(grenades[i].grenadName, grenades[i]);
+        }
+        for (int i = 0; i < drinks.Length; i++)
+        {
+            drinkDictionary.Add(drinks[i].DrinkName, drinks[i]);
         }
 
 
@@ -70,7 +77,12 @@ public class ItemManager : MonoBehaviour
                 StartCoroutine(ChangeWeaponCoroutine("GRENADE_SMOKE", "SmokeShell"));
 
             }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && DrinkController.isActivate == false)
+            {
 
+                StartCoroutine(ChangeWeaponCoroutine("ENERGY_DRINK", "EnergyDrink"));
+
+            }
         }
 
     }
@@ -103,6 +115,9 @@ public class ItemManager : MonoBehaviour
                 break;
             case "GRENADE_SMOKE":
                 SmokeShellController.isActivate = false;
+                break;
+            case "ENERGY_DRINK":
+                DrinkController.isActivate = false;
                 break;
 
         }
@@ -137,6 +152,16 @@ public class ItemManager : MonoBehaviour
 
             theSmokeController.StartCoroutine(theSmokeController.PrepareCoroutine());
         }
+        if (_type == "ENERGY_DRINK")
+        {
+
+            theDrinkController.DrinkChange(drinkDictionary[_name]);
+
+
+            theDrinkController.StartCoroutine(theDrinkController.PrepareCoroutine());
+        }
+
+
 
 
 

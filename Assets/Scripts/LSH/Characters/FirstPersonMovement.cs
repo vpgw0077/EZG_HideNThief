@@ -1,16 +1,32 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
 
 public class FirstPersonMovement : MonoBehaviour
 {
     float recoverTime = 0;
 
+    public bool useDrink;
     public float Movespeed = 5f;
     public Slider Stamina_Bar;
+
     Vector2 velocity;
+
+    GroundCheck theGround;
+
+    private void Start()
+    {
+        theGround = GetComponentInChildren<GroundCheck>();
+    }
 
     void Update()
     {
+        if (useDrink)
+        {
+            Stamina_Bar.value = 1;
+        }
+
         Run();
     }
     private void FixedUpdate()
@@ -22,25 +38,31 @@ public class FirstPersonMovement : MonoBehaviour
 
     void Run()
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && theGround.isGrounded)
         {
-            if (Input.GetKey(KeyCode.W))
+
+            if (Stamina_Bar.value > 0)
             {
-                if (Stamina_Bar.value > 0)
-                {
-                    Movespeed = 15f;
-                    Stamina_Bar.value -= 0.001f;
-                    recoverTime = 0;
-                }
-                else if (Stamina_Bar.value == 0)
-                {
-                    Movespeed = 3f;
-                    recoverTime = 0;
-                }
+                Movespeed = 15f;
+                Stamina_Bar.value -= 0.005f;
+                recoverTime = 0;
             }
+            else if (Stamina_Bar.value == 0)
+            {
+                Movespeed = 3f;
+                recoverTime = 0;
+            }
+
+            if (useDrink)
+            {
+                recoverTime = 0;
+                StartCoroutine(DrinkOver());
+            }
+
         }
-        else 
+        else
         {
+
             Movespeed = 5f;
 
             if (Stamina_Bar.value > 0)
@@ -57,6 +79,12 @@ public class FirstPersonMovement : MonoBehaviour
         {
             Stamina_Bar.value += Time.deltaTime;
         }
+    }
+
+    public IEnumerator DrinkOver()
+    {
+        yield return new WaitForSeconds(3f);
+        useDrink = false;
     }
 
 }
