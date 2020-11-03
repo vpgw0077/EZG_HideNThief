@@ -13,10 +13,12 @@ public class InteractObject : MonoBehaviour
     RockController theRock;
     SmokeShellController theSmoke;
     FlashBangController theFlash;
+    FlashLight theLight;
     // Start is called before the first frame update
     void Start()
     {
         theMission = FindObjectOfType<MissionCreate>();
+        theLight = GetComponent<FlashLight>();
         theRock = GetComponentInChildren<RockController>();
         theSmoke = GetComponentInChildren<SmokeShellController>();
         theFlash = GetComponentInChildren<FlashBangController>();
@@ -54,20 +56,28 @@ public class InteractObject : MonoBehaviour
                 else if (hit.transform.CompareTag("Rock") && !(theRock.HoldCount >= theRock.MaxCount))
                 {
                     theRock.HoldCount += 1;
+                    theRock.UpdateCount();
                     hit.transform.gameObject.SetActive(false);
 
                 }
                 else if (hit.transform.CompareTag("FlashBang") && !(theFlash.HoldCount >= theFlash.MaxCount))
                 {
                     theFlash.HoldCount += 1;
+                    theFlash.UpdateCount();
                     hit.transform.gameObject.SetActive(false);
 
                 }
                 else if (hit.transform.CompareTag("SmokeShell") && !(theSmoke.HoldCount >= theSmoke.MaxCount))
                 {
                     theSmoke.HoldCount += 1;
+                    theSmoke.UpdateCount();
                     hit.transform.gameObject.SetActive(false);
 
+                }
+                else if(hit.transform.CompareTag("Battery") && theLight.Battery_Bar.value < 1)
+                {
+                    theLight.Battery_Bar.value += 0.2f;
+                    hit.transform.gameObject.SetActive(false);
                 }
 
             }

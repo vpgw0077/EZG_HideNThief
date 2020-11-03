@@ -5,5 +5,6 @@ using UnityEngine;
 public class Energy_Drink : MonoBehaviour
 {
     public string DrinkName;
+    public Animator anim;
 
 }

@@ -8,7 +8,7 @@ public class ItemManager : MonoBehaviour
     public static bool isChangeWeapon = false;
     public string currentWeaponType; // 현재 무기 타입 이름
     public static Transform currentWeapon;  // 현재 무기
-    //public static Animator currentWeaponAnim;
+    public static Animator currentWeaponAnim;
 
     public float changeWeaponDelayTime; // 바꾸기 딜레이
     public float changeWeaponEndDelayTime; // 바꾼 후 딜레이
@@ -57,27 +57,27 @@ public class ItemManager : MonoBehaviour
 
         if (!isChangeWeapon)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && RockController.isActivate == false)
+            if (Input.GetKeyDown(KeyCode.Alpha1) && RockController.isActivate == false && theRockController.HoldCount > 0)
             {
                 StartCoroutine(ChangeWeaponCoroutine("GRENADE_ROCK", "Rock"));
 
             }
 
 
-            if (Input.GetKeyDown(KeyCode.Alpha2) && FlashBangController.isActivate == false)
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && FlashBangController.isActivate == false && theFlashController.HoldCount > 0)
             {
 
                 StartCoroutine(ChangeWeaponCoroutine("GRENADE_FLASH", "FlashBang"));
 
             }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3) && SmokeShellController.isActivate == false)
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && SmokeShellController.isActivate == false && theSmokeController.HoldCount > 0)
             {
 
                 StartCoroutine(ChangeWeaponCoroutine("GRENADE_SMOKE", "SmokeShell"));
 
             }
-            if (Input.GetKeyDown(KeyCode.Alpha4) && DrinkController.isActivate == false)
+            else if (Input.GetKeyDown(KeyCode.Alpha4) && DrinkController.isActivate == false && theDrinkController.HoldCount > 0)
             {
 
                 StartCoroutine(ChangeWeaponCoroutine("ENERGY_DRINK", "EnergyDrink"));
@@ -90,7 +90,7 @@ public class ItemManager : MonoBehaviour
     public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
     {
         isChangeWeapon = true;
-        //currentWeaponAnim.SetTrigger("Weapon_Out");
+        currentWeaponAnim.SetTrigger("Weapon_Out");
         yield return new WaitForSeconds(changeWeaponDelayTime);
 
 

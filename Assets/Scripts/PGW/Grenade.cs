@@ -5,5 +5,8 @@ using UnityEngine;
 public class Grenade : MonoBehaviour
 {
     public string grenadName;
+    public Animator anim;
 
 }
+
+

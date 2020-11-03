@@ -2,17 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class GrenadeController : MonoBehaviour
 {
-    public Grenade currentGrenade;
+    [SerializeField]
+    protected Grenade currentGrenade;
 
-    public float ThrowForce = 20f;
-    public bool ThrowReady = false;
-    public bool isReady = false;
+    protected float ThrowForce = 20f;
+    protected bool ThrowReady = false;
+    protected bool isReady = false;
     public GameObject grenadePrefab;
     public Transform hand;
+    public Text HoldText;
 
+    public float currentFireRate;
 
 
     public int HoldCount;
@@ -21,10 +25,14 @@ public abstract class GrenadeController : MonoBehaviour
 
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        HoldCount = 5;
+        UpdateCount();
+    }
     void Start()
     {
         StartCoroutine(PrepareCoroutine());
-        HoldCount = 5;
     }
 
     public IEnumerator PrepareCoroutine()
@@ -40,34 +48,49 @@ public abstract class GrenadeController : MonoBehaviour
 
         TryThrow();
 
-
+    }
+    public void FireRateCalc()
+    {
+        if (currentFireRate > 0)
+            currentFireRate -= Time.deltaTime;
     }
 
-    protected void TryThrow()
+    public void UpdateCount()
+    {
+        HoldText.text = HoldCount.ToString();
+    }
+    public void TryThrow()
     {
         if (HoldCount > 0)
         {
 
-            if (Input.GetMouseButton(0) && HoldCount > 0)
+            if (Input.GetMouseButtonDown(0) && HoldCount > 0 && currentFireRate <= 0)
             {
                 ThrowReady = true;
+                currentGrenade.anim.SetTrigger("ThrowReady");
 
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if (Input.GetMouseButtonUp(0) && ThrowReady && currentFireRate <= 0)
             {
-                Throw();
+                currentGrenade.anim.SetTrigger("Throw");
+                StartCoroutine(Throw());
             }
 
         }
 
     }
-    private void Throw()
+
+
+    public IEnumerator Throw()
     {
+        currentFireRate = 1f;
+        yield return new WaitForSeconds(0.35f);
         GameObject grenade = Instantiate(grenadePrefab, hand.position, hand.rotation);
         grenade.GetComponent<Rigidbody>().AddForce(transform.forward * ThrowForce, ForceMode.VelocityChange);
         ThrowReady = false;
         --HoldCount;
+        UpdateCount();
     }
 
     public Grenade getGrenade()
@@ -86,7 +109,7 @@ public abstract class GrenadeController : MonoBehaviour
 
         currentGrenade = _grenade;
         ItemManager.currentWeapon = currentGrenade.GetComponent<Transform>();
-        // WeaponManager_PGW.currentWeaponAnim = currentGrenade.Anim;
+        ItemManager.currentWeaponAnim = currentGrenade.anim;
 
         currentGrenade.transform.localPosition = Vector3.zero;
         currentGrenade.gameObject.SetActive(true);

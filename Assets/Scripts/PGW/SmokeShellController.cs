@@ -10,11 +10,16 @@ public class SmokeShellController : GrenadeController
     // Update is called once per frame
     void Update()
     {
-        if (isActivate)
+        if (isActivate && !ItemManager.isChangeWeapon)
             TryThrow();
         else
         {
             isReady = false;
+        }
+
+        if (isActivate)
+        {
+            FireRateCalc();
         }
     }
     public override void GrenadeChange(Grenade _grenade)

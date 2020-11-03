@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DrinkController : MonoBehaviour
 {
@@ -10,18 +11,37 @@ public class DrinkController : MonoBehaviour
     public static bool isActivate = false;
     public bool isReady = false;
 
+    public float currentFireRate;
+
     public int HoldCount;
     public int MaxCount = 5;
+
+    public Text HoldText;
 
     FirstPersonMovement thePlayer;
 
 
+    private void Awake()
+    {
+        HoldCount = 5;
+        UpdateCount();
+    }
     // Start is called before the first frame update
     void Start()
     {
         StartCoroutine(PrepareCoroutine());
         thePlayer = GetComponentInParent<FirstPersonMovement>();
-        HoldCount = 5;
+    }
+
+    public void FireRateCalc()
+    {
+        if (currentFireRate > 0)
+            currentFireRate -= Time.deltaTime;
+    }
+
+    public void UpdateCount()
+    {
+        HoldText.text = HoldCount.ToString();
     }
 
     public IEnumerator PrepareCoroutine()
@@ -32,7 +52,15 @@ public class DrinkController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TryDrink();
+        if (isActivate && !ItemManager.isChangeWeapon)
+        {
+            TryDrink();
+
+        }
+        if (isActivate)
+        {
+            FireRateCalc();
+        }
     }
 
     private void TryDrink()
@@ -40,8 +68,9 @@ public class DrinkController : MonoBehaviour
         if (HoldCount > 0)
         {
 
-            if (Input.GetMouseButtonDown(0) && HoldCount > 0)
+            if (Input.GetMouseButtonDown(0) && HoldCount > 0 && !thePlayer.useDrink && currentFireRate <= 0)
             {
+                theDrink.anim.SetTrigger("Drink");
                 StartCoroutine(Drink());
 
             }
@@ -51,8 +80,18 @@ public class DrinkController : MonoBehaviour
 
     IEnumerator Drink()
     {
+        currentFireRate = 1f;
         yield return new WaitForSeconds(0.5f);
         thePlayer.useDrink = true;
+        --HoldCount;
+        UpdateCount();
+        StartCoroutine(DrinkOver());
+    }
+
+    public IEnumerator DrinkOver()
+    {
+        yield return new WaitForSeconds(3f);
+        thePlayer.useDrink = false;
     }
 
     public Energy_Drink getDrink()
@@ -60,7 +99,7 @@ public class DrinkController : MonoBehaviour
         return theDrink;
     }
 
-    public virtual void DrinkChange(Energy_Drink _drink)
+    public void DrinkChange(Energy_Drink _drink)
     {
         if (ItemManager.currentWeapon != null)
 
@@ -71,10 +110,11 @@ public class DrinkController : MonoBehaviour
 
         theDrink = _drink;
         ItemManager.currentWeapon = theDrink.GetComponent<Transform>();
-        // WeaponManager_PGW.currentWeaponAnim = currentGrenade.Anim;
+        ItemManager.currentWeaponAnim = theDrink.anim;
 
         theDrink.transform.localPosition = Vector3.zero;
         theDrink.gameObject.SetActive(true);
+        isActivate = true;
 
     }
 }
