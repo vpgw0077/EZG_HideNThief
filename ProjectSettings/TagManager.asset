@@ -12,6 +12,8 @@ TagManager:
   - Rock
   - FlashBang
   - Battery
+  - Item
+  - Trap
   layers:
   - Default
   - TransparentFX

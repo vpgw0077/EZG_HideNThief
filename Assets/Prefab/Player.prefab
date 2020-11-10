@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 1850506422}
   - component: {fileID: 1850506421}
   - component: {fileID: 1850506420}
+  - component: {fileID: 2049351393}
   m_Layer: 11
   m_Name: EnergyDrink
   m_TagString: Untagged
@@ -57,7 +58,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850506418}
-  m_LocalRotation: {x: -0, y: -0, z: 0.20196857, w: 0.97939205}
+  m_LocalRotation: {x: 0, y: 0, z: 0.2019668, w: 0.97939235}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
@@ -124,7 +125,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DrinkName: EnergyDrink
-  anim: {fileID: 0}
+  anim: {fileID: 2049351393}
+--- !u!95 &2049351393
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850506418}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 633e6dcb37309eb4db7063eda05f2127, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2139161980
 GameObject:
   m_ObjectHideFlags: 0
@@ -292,6 +312,7 @@ GameObject:
   - component: {fileID: 7354481751011877011}
   - component: {fileID: 7389576278548513685}
   - component: {fileID: 7366490759880013305}
+  - component: {fileID: 1279349912}
   m_Layer: 8
   m_Name: First person camera
   m_TagString: MainCamera
@@ -339,7 +360,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.2
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -347,7 +368,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1847
+    m_Bits: 4294967295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -390,6 +411,66 @@ MonoBehaviour:
   character: {fileID: 7467709724163855495}
   sensitivity: 1
   smoothing: 2
+--- !u!114 &1279349912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7469775870192237083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 7467992046117450599}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 4096
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 0
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1 &7469815877446520623
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,6 +605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Light: {fileID: 7470434870068907943}
   isON: 0
+  Battery_Bar: {fileID: 0}
 --- !u!114 &7470434871208763487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,10 +630,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7470434869393379777}
   - component: {fileID: 7470434869393379783}
-  - component: {fileID: 7470434869393379776}
   - component: {fileID: 7470434869393379781}
   - component: {fileID: 7470434869393379782}
   - component: {fileID: 2052966562}
+  - component: {fileID: 1616388201}
   m_Layer: 11
   m_Name: Holder
   m_TagString: Untagged
@@ -599,28 +681,10 @@ MonoBehaviour:
   - {fileID: 7470434871345257149}
   drinks:
   - {fileID: 1850506420}
-  theRockController: {fileID: 7470434869393379776}
+  theRockController: {fileID: 1616388201}
   theFlashController: {fileID: 7470434869393379782}
   theSmokeController: {fileID: 7470434869393379781}
   theDrinkController: {fileID: 2052966562}
---- !u!114 &7470434869393379776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7470434869393379778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4183b3d32a633941b06273c4a13c142, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentGrenade: {fileID: 7470434869506207634}
-  grenadePrefab: {fileID: 580713651329289688, guid: 26cdb4413f2fe814ca7029c8ddd1efd9,
-    type: 3}
-  hand: {fileID: 7470434871237909851}
-  HoldCount: 5
-  MaxCount: 5
 --- !u!114 &7470434869393379781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -637,6 +701,8 @@ MonoBehaviour:
   grenadePrefab: {fileID: 785285035698162511, guid: a8a530409a14a104ab03392923fd97b6,
     type: 3}
   hand: {fileID: 7470434871237909851}
+  HoldText: {fileID: 0}
+  currentFireRate: 0
   HoldCount: 0
   MaxCount: 5
 --- !u!114 &7470434869393379782
@@ -655,6 +721,8 @@ MonoBehaviour:
   grenadePrefab: {fileID: 5806108081269655147, guid: dd4bb1cf94dd2ec498bc25e0d47bc7cc,
     type: 3}
   hand: {fileID: 7470434871237909851}
+  HoldText: {fileID: 0}
+  currentFireRate: 0
   HoldCount: 0
   MaxCount: 5
 --- !u!114 &2052966562
@@ -671,6 +739,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theDrink: {fileID: 1850506420}
   isReady: 0
+  currentFireRate: 0
+  HoldCount: 0
+  MaxCount: 5
+  HoldText: {fileID: 0}
+--- !u!114 &1616388201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470434869393379778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4183b3d32a633941b06273c4a13c142, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGrenade: {fileID: 7470434869506207634}
+  grenadePrefab: {fileID: 580713651329289688, guid: 26cdb4413f2fe814ca7029c8ddd1efd9,
+    type: 3}
+  hand: {fileID: 7470434871237909851}
+  HoldText: {fileID: 0}
+  currentFireRate: 0
   HoldCount: 0
   MaxCount: 5
 --- !u!1 &7470434869506207646
@@ -692,7 +782,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7470434869506207645
 Transform:
   m_ObjectHideFlags: 0
@@ -700,13 +790,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7470434869506207646}
-  m_LocalRotation: {x: -0, y: -0, z: 0.20196857, w: 0.97939205}
+  m_LocalRotation: {x: 0, y: 0, z: 0.20896144, w: 0.97792387}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.22, y: 0.22, z: 0.22}
   m_Children: []
   m_Father: {fileID: 7470434870416879133}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 23.304}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 24.123001}
 --- !u!33 &7470434869506207635
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1128,6 +1218,7 @@ GameObject:
   - component: {fileID: 7470434871345257150}
   - component: {fileID: 7470434871345257151}
   - component: {fileID: 7470434871345257149}
+  - component: {fileID: 1845698707}
   m_Layer: 11
   m_Name: SmokeShell
   m_TagString: Untagged
@@ -1209,4 +1300,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grenadName: SmokeShell
-  anim: {fileID: 0}
+  anim: {fileID: 1845698707}
+--- !u!95 &1845698707
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7470434871345257145}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e4e675fc6b29a6844981557ade528cc4, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
