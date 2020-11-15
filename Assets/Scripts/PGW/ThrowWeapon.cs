@@ -5,6 +5,9 @@ using UnityEngine;
 public class ThrowWeapon : MonoBehaviour
 {
     float Countdown = 2f;
+
+    public ParticleSystem Smoke_Effect;
+    public ParticleSystem Flash_Effect;
     public enum WeaponType
     {
         FlashBang,
@@ -26,10 +29,14 @@ public class ThrowWeapon : MonoBehaviour
     }
     public void GrenadeTrigger()
     {
+
         if (theThrowWeapon == WeaponType.FlashBang)
         {
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 20f);
+            ParticleSystem f_Effect = ParticlePooling.instance.GetF_Queue();
+            f_Effect.transform.position = gameObject.transform.position;
+            f_Effect.transform.parent = gameObject.transform;
+            Collider[] colls = Physics.OverlapSphere(transform.position, 30f);
 
             foreach (var coll in colls)
             {
@@ -45,6 +52,9 @@ public class ThrowWeapon : MonoBehaviour
         if (theThrowWeapon == WeaponType.SmokeShell)
         {
             gameObject.transform.GetChild(0).gameObject.SetActive(true);
+            ParticleSystem s_Effect = ParticlePooling.instance.GetQueue();
+            s_Effect.transform.position = gameObject.transform.position;
+            s_Effect.transform.parent = gameObject.transform;
             StartCoroutine(SmokeOff());
         }
     }
@@ -70,7 +80,9 @@ public class ThrowWeapon : MonoBehaviour
 
     IEnumerator SmokeOff()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(30f);
+        gameObject.transform.GetChild(0).transform.position = new Vector3(0, 200, 0);
+        yield return new WaitForSeconds(0.1f);
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
     }
     private void OnCollisionEnter(Collision collision)

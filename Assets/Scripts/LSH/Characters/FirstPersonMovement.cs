@@ -16,11 +16,16 @@ public class FirstPersonMovement : MonoBehaviour
     Vector2 velocity;
     Vector3 lastPos;
 
+    float h;
+    float v;
+
     GroundCheck theGround;
+    Rigidbody rb;
 
     private void Start()
     {
         theGround = GetComponentInChildren<GroundCheck>();
+        rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -51,9 +56,20 @@ public class FirstPersonMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        velocity.y = Input.GetAxis("Vertical") * Movespeed * Time.deltaTime;
+        /*velocity.y = Input.GetAxis("Vertical") * Movespeed * Time.deltaTime;
         velocity.x = Input.GetAxis("Horizontal") * Movespeed * Time.deltaTime;
-        transform.Translate(velocity.x, 0, velocity.y);
+        transform.Translate(velocity.x, 0, velocity.y);*/
+
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
+
+        Vector3 horizontal = transform.right * h;
+        Vector3 vertical = transform.forward * v;
+        Vector3 velocity = (horizontal + vertical).normalized * Movespeed;
+
+        rb.MovePosition(transform.position + velocity * Time.deltaTime);
+
         MoveCheck();
 
         

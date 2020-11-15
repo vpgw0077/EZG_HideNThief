@@ -124,4 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605cfe8d6a0043d4a8eefb6cb23c07ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Smoke_Effect: {fileID: 0}
+  Flash_Effect: {fileID: 3840596975831349788, guid: 259999728511ad5418d6f362d350aa75,
+    type: 3}
   theThrowWeapon: 0

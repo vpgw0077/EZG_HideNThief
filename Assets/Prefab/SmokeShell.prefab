@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8822963349484739874}
   - component: {fileID: 4409177935379078498}
   - component: {fileID: 6661215961761500990}
-  - component: {fileID: 6711198059548792920}
   - component: {fileID: 3724632807494855098}
   - component: {fileID: 4300870478595702108}
+  - component: {fileID: 172673823536801729}
   m_Layer: 10
   m_Name: SmokeShell
   m_TagString: Untagged
@@ -83,20 +83,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &6711198059548792920
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 785285035698162511}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!54 &3724632807494855098
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -125,7 +111,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 605cfe8d6a0043d4a8eefb6cb23c07ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Smoke_Effect: {fileID: 6758079861523798853, guid: 904f6606a2752f14c82671d6ff3b3c77,
+    type: 3}
   theThrowWeapon: 2
+--- !u!65 &172673823536801729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785285035698162511}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &3219990972512691617
 GameObject:
   m_ObjectHideFlags: 0
@@ -136,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1938522041410765114}
   - component: {fileID: 5416886526328256982}
-  - component: {fileID: 2236189651079372725}
+  - component: {fileID: 9030856142133614065}
   m_Layer: 0
   m_Name: Trigger
   m_TagString: Untagged
@@ -170,8 +171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a70600ae7ced12d4d980886bc7f50252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &2236189651079372725
-SphereCollider:
+--- !u!65 &9030856142133614065
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -181,5 +182,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 50
+  m_Size: {x: 20, y: 20, z: 20}
   m_Center: {x: 0, y: 0, z: 0}

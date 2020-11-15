@@ -124,7 +124,7 @@ public class InteractObject : MonoBehaviour
     }
     private void TrapOutLine()
     {
-        InteractableObject = hitInfo.transform.GetComponent<Outline>();
+        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
         InteractableObject.OutlineColor = new Color32(255, 0, 0, 100);
         InteractableObject.OutlineWidth = 20f;
     }

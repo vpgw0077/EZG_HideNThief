@@ -94,7 +94,6 @@ public class EnemyAI : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Linecast(transform.position, Player.transform.position, out hit, -1))
                 {
-                    Debug.Log(hit.transform.tag);
                     if (hit.transform.CompareTag("Player") && !isBlind && !isStuned)
                     {
                         OnAware();
@@ -140,7 +139,7 @@ public class EnemyAI : MonoBehaviour
         if (!isStuned)
         {
             agent.speed = wanderSpeed;
-            if (Vector3.Distance(transform.position, wanderPoint) < 2f)
+            if (Vector3.Distance(transform.position, wanderPoint) < 1f)
             {
                 StartCoroutine(LookAround());
                 wanderPoint = RandomWanderPoint();
