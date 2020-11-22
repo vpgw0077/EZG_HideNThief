@@ -19,12 +19,14 @@ public class DrinkController : MonoBehaviour
     public Text HoldText;
 
     FirstPersonMovement thePlayer;
+    ItemManager itemManager;
 
 
     private void Awake()
     {
         HoldCount = 5;
         UpdateCount();
+        itemManager = GetComponent<ItemManager>();
     }
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,11 @@ public class DrinkController : MonoBehaviour
     public void UpdateCount()
     {
         HoldText.text = HoldCount.ToString();
+        if (HoldCount == 0)
+        {
+            itemManager.RunoutItem();
+
+        }
     }
 
     public IEnumerator PrepareCoroutine()
@@ -90,7 +97,7 @@ public class DrinkController : MonoBehaviour
 
     public IEnumerator DrinkOver()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(10f);
         thePlayer.useDrink = false;
     }
 

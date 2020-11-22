@@ -14,6 +14,7 @@ TagManager:
   - Battery
   - Item
   - Trap
+  - DetectZone
   layers:
   - Default
   - TransparentFX
@@ -28,7 +29,7 @@ TagManager:
   - Item
   - Weapon
   - PostProcessing
-  - 
+  - Effect
   - 
   - 
   - 

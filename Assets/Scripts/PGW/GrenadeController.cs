@@ -9,6 +9,8 @@ public abstract class GrenadeController : MonoBehaviour
     [SerializeField]
     protected Grenade currentGrenade;
 
+    public string ThrowSound;
+
     protected float ThrowForce = 20f;
     protected bool ThrowReady = false;
     protected bool isReady = false;
@@ -22,6 +24,7 @@ public abstract class GrenadeController : MonoBehaviour
     public int HoldCount;
     public int MaxCount = 5;
 
+    ItemManager itemManager;
 
 
     // Start is called before the first frame update
@@ -29,6 +32,7 @@ public abstract class GrenadeController : MonoBehaviour
     {
         HoldCount = 5;
         UpdateCount();
+        itemManager = GetComponent<ItemManager>();
     }
     void Start()
     {
@@ -58,6 +62,11 @@ public abstract class GrenadeController : MonoBehaviour
     public void UpdateCount()
     {
         HoldText.text = HoldCount.ToString();
+        if(HoldCount == 0)
+        {
+            itemManager.RunoutItem();
+
+        }
     }
     public void TryThrow()
     {
@@ -73,7 +82,7 @@ public abstract class GrenadeController : MonoBehaviour
 
             if (Input.GetMouseButtonUp(0) && ThrowReady && currentFireRate <= 0)
             {
-                currentGrenade.anim.SetTrigger("Throw");
+                currentGrenade.anim.SetTrigger("Throw");            
                 StartCoroutine(Throw());
             }
 
@@ -87,7 +96,8 @@ public abstract class GrenadeController : MonoBehaviour
         currentFireRate = 1f;
         yield return new WaitForSeconds(0.35f);
         GameObject grenade = Instantiate(grenadePrefab, hand.position, hand.rotation);
-        grenade.GetComponent<Rigidbody>().AddForce(transform.forward * ThrowForce, ForceMode.VelocityChange);
+        SoundManager.instance.PlaySE(ThrowSound);
+        grenade.GetComponent<Rigidbody>().AddForce(transform.forward * ThrowForce, ForceMode.Impulse);
         ThrowReady = false;
         --HoldCount;
         UpdateCount();

@@ -21,6 +21,9 @@ public class EnemyAI : MonoBehaviour
 
     public Animator anim;
 
+    public AudioClip[] WalkSound;
+    public AudioSource SoundPlayer;
+
     float StunTime = 5f;
     public bool isAware = false;
 
@@ -71,6 +74,11 @@ public class EnemyAI : MonoBehaviour
 
     }
 
+    public void FootStepSound()
+    {
+        SoundPlayer.clip = WalkSound[UnityEngine.Random.Range(0, WalkSound.Length)];
+        SoundPlayer.Play();
+    }
     public void DrawAttention(Vector3 SoundSpot)
     {
         wanderPoint = SoundSpot;
@@ -117,7 +125,7 @@ public class EnemyAI : MonoBehaviour
     }
     public IEnumerator Stun()
     {
-        StopCoroutine("LookAround");
+        StopCoroutine(LookAround());
         if (isStuned)
         {
             isAware = false;
@@ -154,11 +162,15 @@ public class EnemyAI : MonoBehaviour
     }
     IEnumerator LookAround()
     {
-        agent.isStopped = true;
-        anim.SetBool("LookAround", true);
-        yield return new WaitForSeconds(3.5f);
-        anim.SetBool("LookAround", false);
-        agent.isStopped = false;
+        if (agent.enabled == true)
+        {
+            agent.isStopped = true;
+            anim.SetBool("LookAround", true);
+            yield return new WaitForSeconds(3.5f);
+            anim.SetBool("LookAround", false);
+            agent.isStopped = false;
+
+        }
 
     }
 

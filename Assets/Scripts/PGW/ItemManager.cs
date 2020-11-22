@@ -18,11 +18,13 @@ public class ItemManager : MonoBehaviour
 
     public Grenade[] grenades; // 투척무기 리스트
     public Energy_Drink[] drinks;
+    public Hand[] Hands;
 
 
 
     public Dictionary<string, Grenade> grenadeDictionary = new Dictionary<string, Grenade>();
     public Dictionary<string, Energy_Drink> drinkDictionary = new Dictionary<string, Energy_Drink>();
+    public Dictionary<string, Hand> handDictionary = new Dictionary<string, Hand>();
 
 
 
@@ -31,6 +33,7 @@ public class ItemManager : MonoBehaviour
     public FlashBangController theFlashController;
     public SmokeShellController theSmokeController;
     public DrinkController theDrinkController;
+    public HandController theHandController;
 
 
 
@@ -45,6 +48,10 @@ public class ItemManager : MonoBehaviour
         {
             drinkDictionary.Add(drinks[i].DrinkName, drinks[i]);
         }
+        for (int i = 0; i < Hands.Length; i++)
+        {
+            handDictionary.Add(Hands[i].HandName, Hands[i]);
+        }
 
 
     }
@@ -52,8 +59,6 @@ public class ItemManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-
 
         if (!isChangeWeapon)
         {
@@ -85,6 +90,10 @@ public class ItemManager : MonoBehaviour
             }
         }
 
+    }
+    public void RunoutItem()
+    {
+        StartCoroutine(ChangeWeaponCoroutine("HAND", "EmptyHand"));
     }
 
     public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
@@ -119,10 +128,12 @@ public class ItemManager : MonoBehaviour
             case "ENERGY_DRINK":
                 DrinkController.isActivate = false;
                 break;
+            case "HAND":
+                HandController.isActivate = false;
+                break;
 
         }
     }
-
     public void WeaponChange(string _type, string _name)
     {
 
@@ -160,7 +171,11 @@ public class ItemManager : MonoBehaviour
 
             theDrinkController.StartCoroutine(theDrinkController.PrepareCoroutine());
         }
-
+        if(_type == "HAND")
+        {
+            theHandController.HandChange(handDictionary[_name]);
+            theHandController.StartCoroutine(theHandController.PrepareCoroutine());
+        }
 
 
 

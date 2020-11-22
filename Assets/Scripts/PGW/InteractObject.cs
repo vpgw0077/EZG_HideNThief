@@ -20,6 +20,7 @@ public class InteractObject : MonoBehaviour
     DrinkController theDrink;
     FlashLight theLight;
     // Start is called before the first frame update
+
     void Start()
     {
         theMission = FindObjectOfType<MissionCreate>();
@@ -74,7 +75,7 @@ public class InteractObject : MonoBehaviour
     private void InteractOutLine()
     {
         InteractActivate = true;
-        InteractableObject = hitInfo.transform.GetComponent<Outline>();
+        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
         InteractableObject.OutlineColor = new Color32(0, 163, 255, 100);
         InteractableObject.OutlineWidth = 20f;
 
@@ -93,9 +94,9 @@ public class InteractObject : MonoBehaviour
         {
             if (!isClose)
             {
-                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f))
+                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 10f))
                 {
-                    if (hitInfo.transform.CompareTag("Item"))
+                    if (hitInfo.transform.GetChild(0).CompareTag("DetectZone"))
                     {
                         if (InteractableObject != hitInfo.transform.GetComponent<Outline>())
                         {
@@ -130,7 +131,7 @@ public class InteractObject : MonoBehaviour
     }
     public void DrawOutLine()
     {
-        InteractableObject = hitInfo.transform.GetComponent<Outline>();
+        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
         InteractableObject.OutlineColor = new Color32(255, 255, 255, 100);
         InteractableObject.OutlineWidth = 20f;
 
