@@ -15,7 +15,7 @@ public class FlashLight : MonoBehaviour
         TryOn();
         if (isON)
         {
-            Battery_Bar.value -= 0.0005f;
+            Battery_Bar.value -= 0.0001f;
         }
         if (Battery_Bar.value == 0)
         {
