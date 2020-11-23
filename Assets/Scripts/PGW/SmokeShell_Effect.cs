@@ -30,5 +30,6 @@ public class SmokeShell_Effect : MonoBehaviour
         {
             StartCoroutine(DestroyEffect());
         }
+       gameObject.transform.eulerAngles = Vector3.zero;
     }
 }

@@ -14,12 +14,16 @@ public class InteractObject : MonoBehaviour
     public Outline InteractableObject;
     public MissionCreate theMission;
 
+    public LayerMask ItemlayerMask;
+    public LayerMask DetectMask;
+
     RockController theRock;
     SmokeShellController theSmoke;
     FlashBangController theFlash;
     DrinkController theDrink;
     FlashLight theLight;
     // Start is called before the first frame update
+
     void Start()
     {
         theMission = FindObjectOfType<MissionCreate>();
@@ -42,7 +46,7 @@ public class InteractObject : MonoBehaviour
 
     private void InteractableOutLine()
     {
-        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 2f))
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 2f, ItemlayerMask))
         {
             isClose = true;
             if (hitInfo.transform.CompareTag("Item"))
@@ -93,11 +97,11 @@ public class InteractObject : MonoBehaviour
         {
             if (!isClose)
             {
-                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f))
+                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 10f, DetectMask))
                 {
-                    if (hitInfo.transform.CompareTag("Item"))
+                    if (hitInfo.transform.GetChild(0).CompareTag("DetectZone"))
                     {
-                        if (InteractableObject != hitInfo.transform.GetComponent<Outline>())
+                        if (InteractableObject != hitInfo.transform.GetComponentInParent<Outline>())
                         {
                             OutLineDisappear();
                         }
@@ -130,8 +134,8 @@ public class InteractObject : MonoBehaviour
     }
     public void DrawOutLine()
     {
-        InteractableObject = hitInfo.transform.GetComponent<Outline>();
-        InteractableObject.OutlineColor = new Color32(255, 255, 255, 100);
+        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
+        InteractableObject.OutlineColor = new Color32(240, 248, 88, 255);
         InteractableObject.OutlineWidth = 20f;
 
     }
@@ -156,7 +160,7 @@ public class InteractObject : MonoBehaviour
             }
 
 
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Generator)
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Generator)
             {
                 var Gen = hitInfo.transform.GetComponent<GenerateMission>();
                 if (!Gen.GenerateOn)
@@ -166,14 +170,14 @@ public class InteractObject : MonoBehaviour
                 }
             }
 
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCan)
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCan)
             {
                 ++theMission.CurrentGascan;
                 Destroy(hitInfo.transform.gameObject);
                 OutLineDisappear();
 
             }
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Rock && !(theRock.HoldCount >= theRock.MaxCount))
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Rock && !(theRock.HoldCount >= theRock.MaxCount))
             {
                 theRock.HoldCount += 1;
                 theRock.UpdateCount();
@@ -182,7 +186,7 @@ public class InteractObject : MonoBehaviour
 
 
             }
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.FlashBang && !(theFlash.HoldCount >= theFlash.MaxCount))
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.FlashBang && !(theFlash.HoldCount >= theFlash.MaxCount))
             {
                 theFlash.HoldCount += 1;
                 theFlash.UpdateCount();
@@ -190,7 +194,7 @@ public class InteractObject : MonoBehaviour
                 OutLineDisappear();
 
             }
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.SmokeShell && !(theSmoke.HoldCount >= theSmoke.MaxCount))
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.SmokeShell && !(theSmoke.HoldCount >= theSmoke.MaxCount))
             {
                 theSmoke.HoldCount += 1;
                 theSmoke.UpdateCount();
@@ -198,7 +202,7 @@ public class InteractObject : MonoBehaviour
                 OutLineDisappear();
 
             }
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.EnergyDrink && !(theDrink.HoldCount >= theDrink.MaxCount))
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.EnergyDrink && !(theDrink.HoldCount >= theDrink.MaxCount))
             {
                 theDrink.HoldCount += 1;
                 theDrink.UpdateCount();

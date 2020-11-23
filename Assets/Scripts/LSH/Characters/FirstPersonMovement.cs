@@ -10,7 +10,7 @@ public class FirstPersonMovement : MonoBehaviour
     public bool isMove;
     public bool useDrink;
     public bool isRun;
-    public float Movespeed = 5f;
+    public float Movespeed = 3f;
     public Slider Stamina_Bar;
 
     Vector2 velocity;
@@ -22,38 +22,72 @@ public class FirstPersonMovement : MonoBehaviour
     GroundCheck theGround;
     Rigidbody rb;
 
+
+    public AudioClip[] WalkSound;
+    public AudioSource SoundPlayer;
+    public float RunTime;
+
     private void Start()
     {
         theGround = GetComponentInChildren<GroundCheck>();
         rb = GetComponent<Rigidbody>();
     }
-
     void Update()
     {
+        Run();
+
         if (useDrink)
         {
             Stamina_Bar.value = 1;
-           // StartCoroutine(DrinkOver());
         }
-
-        Run();
-        if (isMove)
+        if (isMove && theGround.isGrounded)
         {
-            ItemManager.currentWeaponAnim.SetBool("Walk",true);
+            ItemManager.currentWeaponAnim.SetBool("Walk", true);
+
             if (isRun)
             {
                 ItemManager.currentWeaponAnim.SetBool("Run", true);
+
+                if (RunTime >= 0.27f)
+                {
+                    RunTime = 0;
+                    RunStepSound();
+                    
+                }
+                StopCoroutine(FootStepSound());
             }
             else
             {
-             ItemManager.currentWeaponAnim.SetBool("Run", false);
+                ItemManager.currentWeaponAnim.SetBool("Run", false);
+                if (!SoundPlayer.isPlaying)
+                {
+
+                    StartCoroutine(FootStepSound());
+
+                }
+                
             }
         }
         else
         {
             ItemManager.currentWeaponAnim.SetBool("Walk", false);
+            StopCoroutine(FootStepSound());
         }
     }
+    IEnumerator FootStepSound()
+    {
+        yield return new WaitForSeconds(0.05f);
+        SoundPlayer.clip = WalkSound[UnityEngine.Random.Range(0, WalkSound.Length)];
+        SoundPlayer.Play();
+    }
+    void RunStepSound()
+    {
+        SoundPlayer.clip = WalkSound[UnityEngine.Random.Range(0, WalkSound.Length)];
+        SoundPlayer.Play();
+
+
+    }
+
     private void FixedUpdate()
     {
         /*velocity.y = Input.GetAxis("Vertical") * Movespeed * Time.deltaTime;
@@ -72,13 +106,13 @@ public class FirstPersonMovement : MonoBehaviour
 
         MoveCheck();
 
-        
+
     }
 
     private void MoveCheck()
     {
 
-        if (Vector3.Distance(lastPos, transform.position) >= 0.01f)
+        if (Vector3.Distance(new Vector3(lastPos.x, 0, lastPos.z), new Vector3(transform.position.x, 0, transform.position.z)) >= 0.01f)
         {
 
             isMove = true;
@@ -89,7 +123,7 @@ public class FirstPersonMovement : MonoBehaviour
         else
         {
             isMove = false;
-            
+
 
         }
 
@@ -106,15 +140,17 @@ public class FirstPersonMovement : MonoBehaviour
             if (Stamina_Bar.value > 0)
             {
                 isRun = true;
-                Movespeed = 15f;
+                Movespeed = 10f;
                 Stamina_Bar.value -= 0.001f;
                 recoverTime = 0;
+                RunTime += Time.deltaTime;
             }
             else if (Stamina_Bar.value == 0)
             {
                 isRun = false;
-                Movespeed = 3f;
+                Movespeed = 2f;
                 recoverTime = 0;
+                RunTime = 0;
             }
 
 
@@ -123,7 +159,7 @@ public class FirstPersonMovement : MonoBehaviour
         {
             isRun = false;
             Movespeed = 5f;
-
+            RunTime = 0;
             if (Stamina_Bar.value > 0)
             {
                 recoverTime += Time.deltaTime;
@@ -140,10 +176,5 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
-    public IEnumerator DrinkOver()
-    {
-        yield return new WaitForSeconds(3f);
-        useDrink = false;
-    }
 
 }

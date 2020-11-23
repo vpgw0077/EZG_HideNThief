@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6758079861523798853}
   - component: {fileID: 6758079861522679967}
   - component: {fileID: 8188895932034440944}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SmokeShell_Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.3584906, g: 0.3584906, b: 0.3584906, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
