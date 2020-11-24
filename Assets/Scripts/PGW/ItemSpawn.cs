@@ -18,7 +18,7 @@ public class ItemSpawn : MonoBehaviour
         {
             ItemType = Random.Range(0, Items.Length);
             Instantiate(Items[ItemType], SpawnZone, Quaternion.identity);
-            SpawnZone.x += 1;
+            SpawnZone.x += 2;
 
         }
     }

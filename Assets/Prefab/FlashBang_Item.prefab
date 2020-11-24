@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 2337044183608643576}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 363.08948, y: 98.48896, z: 975.97003}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 2940541698027775232}
   - {fileID: 2334864192878033460}
@@ -185,7 +185,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2940541698027775232}
   - component: {fileID: 2908120864500369142}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: DetectZone
   m_TagString: DetectZone
   m_Icon: {fileID: 0}
@@ -217,5 +217,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}

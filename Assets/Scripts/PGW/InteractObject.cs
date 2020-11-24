@@ -46,7 +46,7 @@ public class InteractObject : MonoBehaviour
 
     private void InteractableOutLine()
     {
-        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 2f, ItemlayerMask))
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 3f))
         {
             isClose = true;
             if (hitInfo.transform.CompareTag("Item"))

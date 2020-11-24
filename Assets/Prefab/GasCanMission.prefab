@@ -45,11 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e61006a50bf9bd48b48335a4ecfa41f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Generator: {fileID: 6757292399473714209, guid: c429a1049fa1d2542b3477cf658401fe,
-    type: 3}
+  Generator: {fileID: 0}
   CurrentGenerator: 0
   RequireGenerator: 3
-  GasCan: {fileID: 8074323809334511998, guid: f2942528d6cffc94f8ae151086749d32, type: 3}
+  GasCan: {fileID: 2500116436511633014, guid: f2942528d6cffc94f8ae151086749d32, type: 3}
   CurrentGascan: 0
   RequireGascan: 5
   theMission: 1
