@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    public enum TrapType
-    {
-        DamageTrap,
-        SirenTrap
-    }
-
-    public TrapType theTrapType;
     public float SirenRange;
+    public bool isActivate = false;
 
     public void SirenTrigger()
     {
+        isActivate = true;
         Collider[] colls = Physics.OverlapSphere(transform.position, SirenRange);
 
         foreach (var coll in colls)
@@ -32,17 +27,11 @@ public class Trap : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            switch (theTrapType)
+            if (!isActivate)
             {
-                case TrapType.DamageTrap:
-                    Debug.Log("체력 감소");
-                    break;
-
-                case TrapType.SirenTrap:
-                    SirenTrigger();
-                    break;
-
+                SirenTrigger();
             }
+
         }
     }
 

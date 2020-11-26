@@ -5053,10 +5053,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fov: 360
   Player: {fileID: 0}
-  viewDistance: 20
+  viewDistance: 40
   wanderRadius: 20
   wanderSpeed: 3
-  ChaceSpeed: 5
+  ChaceSpeed: 8
   Distance: 0
   isStuned: 0
   isBlind: 0
@@ -5084,7 +5084,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.2
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

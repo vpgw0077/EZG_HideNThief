@@ -14,7 +14,7 @@ public class InteractObject : MonoBehaviour
     public Outline InteractableObject;
     public MissionCreate theMission;
 
-    public LayerMask ItemlayerMask;
+    public LayerMask ItemMask;
     public LayerMask DetectMask;
 
     RockController theRock;
@@ -41,12 +41,14 @@ public class InteractObject : MonoBehaviour
         TryInteract();
         InteractableOutLine();
         CheckItem();
+        CheckTrap();
+
 
     }
 
     private void InteractableOutLine()
     {
-        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 3f))
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 3.5f, ItemMask))
         {
             isClose = true;
             if (hitInfo.transform.CompareTag("Item"))
@@ -97,7 +99,7 @@ public class InteractObject : MonoBehaviour
         {
             if (!isClose)
             {
-                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 10f, DetectMask))
+                if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 15f, DetectMask))
                 {
                     if (hitInfo.transform.GetChild(0).CompareTag("DetectZone"))
                     {
@@ -107,10 +109,6 @@ public class InteractObject : MonoBehaviour
                         }
                         DrawOutLine();
 
-                    }
-                    else if (hitInfo.transform.CompareTag("Trap"))
-                    {
-                        TrapOutLine();
                     }
                     else
                     {
@@ -125,6 +123,23 @@ public class InteractObject : MonoBehaviour
         }
 
 
+    }
+    private void CheckTrap()
+    {
+        if (theLight.isON)
+        {
+            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 15f))
+            {
+                if (hitInfo.transform.CompareTag("Trap"))
+                {
+                    TrapOutLine();
+                }
+            }
+            else
+            {
+                OutLineDisappear();
+            }
+        }
     }
     private void TrapOutLine()
     {

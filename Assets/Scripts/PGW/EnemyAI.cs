@@ -89,6 +89,7 @@ public class EnemyAI : MonoBehaviour
     {
 
         isAware = false;
+        GameController.instance.PoliceAware.Remove(true);
 
     }
 
@@ -120,6 +121,7 @@ public class EnemyAI : MonoBehaviour
 
         }
         isAware = true;
+        GameController.instance.PoliceAware.Add(isAware);
 
 
     }
@@ -129,6 +131,7 @@ public class EnemyAI : MonoBehaviour
         if (isStuned)
         {
             isAware = false;
+            GameController.instance.PoliceAware.Remove(true);
             agent.enabled = false;
             anim.SetBool("Stun", true);
 
@@ -180,6 +183,25 @@ public class EnemyAI : MonoBehaviour
         NavMeshHit navHit;
         NavMesh.SamplePosition(randomPoint, out navHit, wanderRadius, NavMesh.AllAreas);
         return new Vector3(navHit.position.x, transform.position.y, navHit.position.z);
+
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (isAware)
+        {
+            if (collision.transform.CompareTag("Player"))
+            {
+                print("GameOver");
+            }
+        }
+        else
+        {
+            if (collision.transform.CompareTag("Player"))
+            {
+                print("NotGameOver");
+            }
+        }
+
 
     }
 }

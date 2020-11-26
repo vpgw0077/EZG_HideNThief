@@ -5,7 +5,10 @@ using UnityEngine;
 public class GenerateMission : MonoBehaviour
 {
     public bool GenerateOn = false;
+    public GameObject GeneratorLight;
     public Animator anim;
+
+    public AudioSource SfxPlayer;
 
     MissionCreate theMission;
 
@@ -25,6 +28,8 @@ public class GenerateMission : MonoBehaviour
     {
         GenerateOn = true;
         ++theMission.CurrentGenerator;
+        GeneratorLight.SetActive(true);
+        SfxPlayer.Play();
         theMission.CheckClear();
 
         Collider[] colls = Physics.OverlapSphere(transform.position, 100f);

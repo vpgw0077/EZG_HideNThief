@@ -10,8 +10,9 @@ public class FirstPersonMovement : MonoBehaviour
     public bool isMove;
     public bool useDrink;
     public bool isRun;
-    public float Movespeed = 3f;
+    public float Movespeed;
     public Slider Stamina_Bar;
+    public Image WarningIMG;
 
     Vector2 velocity;
     Vector3 lastPos;
@@ -72,6 +73,15 @@ public class FirstPersonMovement : MonoBehaviour
         {
             ItemManager.currentWeaponAnim.SetBool("Walk", false);
             StopCoroutine(FootStepSound());
+        }
+
+        if(GameController.instance.PoliceAware.Count > 0)
+        {
+            WarningIMG.gameObject.SetActive(true);
+        }
+        else if(GameController.instance.PoliceAware.Count == 0)
+        {
+            WarningIMG.gameObject.SetActive(false);
         }
     }
     IEnumerator FootStepSound()
@@ -134,13 +144,13 @@ public class FirstPersonMovement : MonoBehaviour
 
     void Run()
     {
-        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && theGround.isGrounded)
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift))
         {
 
             if (Stamina_Bar.value > 0)
             {
                 isRun = true;
-                Movespeed = 10f;
+                Movespeed = 13f;
                 Stamina_Bar.value -= 0.001f;
                 recoverTime = 0;
                 RunTime += Time.deltaTime;
@@ -148,7 +158,7 @@ public class FirstPersonMovement : MonoBehaviour
             else if (Stamina_Bar.value == 0)
             {
                 isRun = false;
-                Movespeed = 2f;
+                Movespeed = 3f;
                 recoverTime = 0;
                 RunTime = 0;
             }
@@ -158,7 +168,7 @@ public class FirstPersonMovement : MonoBehaviour
         else
         {
             isRun = false;
-            Movespeed = 5f;
+            Movespeed = 7f;
             RunTime = 0;
             if (Stamina_Bar.value > 0)
             {
@@ -166,7 +176,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             else if (Stamina_Bar.value == 0)
             {
-                Movespeed = 2f;
+                Movespeed = 3f;
                 recoverTime += Time.deltaTime;
             }
         }
