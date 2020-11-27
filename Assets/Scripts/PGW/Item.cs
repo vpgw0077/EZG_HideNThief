@@ -15,7 +15,9 @@ public class Item : ScriptableObject
 		FlashBang,
 		SmokeShell,
 		EnergyDrink,
-		Battery
+		Battery,
+		GasCanGenerator
+			
 
 	}
 

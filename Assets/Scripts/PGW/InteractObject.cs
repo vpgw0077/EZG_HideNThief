@@ -173,8 +173,6 @@ public class InteractObject : MonoBehaviour
                 hitInfo.transform.gameObject.SetActive(false);
                 OutLineDisappear();
             }
-
-
             else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Generator)
             {
                 var Gen = hitInfo.transform.GetComponent<GenerateMission>();
@@ -184,11 +182,17 @@ public class InteractObject : MonoBehaviour
                     OutLineDisappear();
                 }
             }
+            else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCanGenerator)
+            {
+                var Gen = hitInfo.transform.GetComponent<GenerateMission>();
+                Gen.Operation();
+                OutLineDisappear();
 
+            }
             else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCan)
             {
                 ++theMission.CurrentGascan;
-                Destroy(hitInfo.transform.gameObject);
+                hitInfo.transform.gameObject.SetActive(false); ;
                 OutLineDisappear();
 
             }

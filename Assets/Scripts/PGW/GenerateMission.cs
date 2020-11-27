@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GenerateMission : MonoBehaviour
 {
+    public enum GeneratorType
+    {
+        Common,
+        GasCanGenerator
+    }
+    public GeneratorType GenType;
     public bool GenerateOn = false;
     public GameObject GeneratorLight;
     public Animator anim;
@@ -26,23 +32,38 @@ public class GenerateMission : MonoBehaviour
 
     public void Operation()
     {
-        GenerateOn = true;
-        ++theMission.CurrentGenerator;
-        GeneratorLight.SetActive(true);
-        SfxPlayer.Play();
-        theMission.CheckClear();
-
-        Collider[] colls = Physics.OverlapSphere(transform.position, 100f);
-
-        foreach (var coll in colls)
+        if (GenType == GeneratorType.Common)
         {
-            var police = coll.GetComponent<EnemyAI>();
-            if (police != null)
-            {
-                police.OnAware();
+            GenerateOn = true;
+            ++theMission.CurrentGenerator;
+            GeneratorLight.SetActive(true);
+            SfxPlayer.Play();
+            theMission.CheckClear();
 
+            Collider[] colls = Physics.OverlapSphere(transform.position, 50f);
+
+            foreach (var coll in colls)
+            {
+                var police = coll.GetComponent<EnemyAI>();
+                if (police != null)
+                {
+                    police.OnAware();
+
+                }
             }
         }
-    }
+        else if(GenType == GeneratorType.GasCanGenerator)
+        {
 
+            theMission.CheckClear();
+            if (theMission.isClear)
+            {
+                GenerateOn = true;
+                SfxPlayer.Play();
+            }
+
+
+        }
+
+    }
 }

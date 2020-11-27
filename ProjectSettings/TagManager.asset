@@ -15,6 +15,9 @@ TagManager:
   - Item
   - Trap
   - DetectZone
+  - Pickup
+  - GascanGen
+  - GameClear
   layers:
   - Default
   - TransparentFX

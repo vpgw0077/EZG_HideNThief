@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 public class MissionCreate : MonoBehaviour
 {
@@ -16,18 +17,22 @@ public class MissionCreate : MonoBehaviour
     public int RequireGenerator = 3;
 
     public GameObject GasCan;
+    public GameObject GasCanGenerator;
     public int CurrentGascan = 0;
     public int RequireGascan = 5;
 
     public MissionList theMission;
+    public bool isClear;
 
     MissionManager theManager;
+    Transform GascanGenTr;
 
 
 
     private void Start()
     {
         theManager = FindObjectOfType<MissionManager>();
+        GascanGenTr = GameObject.FindGameObjectWithTag("GascanGen").GetComponent<Transform>();
         StartMission();
     }
 
@@ -67,6 +72,7 @@ public class MissionCreate : MonoBehaviour
     }
     private void CreateGasCan()
     {
+        Instantiate(GasCanGenerator, GascanGenTr.position, GascanGenTr.rotation);
         GameObject[] Gen = GameObject.FindGameObjectsWithTag("SpawnZone");
         List<GameObject> ob = Gen.OfType<GameObject>().ToList();
 
@@ -96,6 +102,7 @@ public class MissionCreate : MonoBehaviour
 
                 if (CurrentGenerator == RequireGenerator)
                 {
+                    isClear = true;
                     theManager.MissionClear();
                 }
                 break;
@@ -103,6 +110,7 @@ public class MissionCreate : MonoBehaviour
             case MissionList.Gascan:
                 if (CurrentGascan == RequireGascan)
                 {
+                    isClear = true;
                     theManager.MissionClear();
                 }
                 break;
@@ -112,12 +120,5 @@ public class MissionCreate : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player") && CurrentGascan == RequireGascan)
-        {
-            CheckClear();
-        }
-    }
 
 }

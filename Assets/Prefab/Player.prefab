@@ -285,7 +285,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -477,6 +477,7 @@ MonoBehaviour:
   isRun: 0
   Movespeed: 5
   Stamina_Bar: {fileID: 0}
+  WarningIMG: {fileID: 0}
   WalkSound:
   - {fileID: 8300000, guid: 9f1b2ca7d4d23964eb8a10ff75ad34eb, type: 3}
   - {fileID: 8300000, guid: 537107042f2c0214892633adfaffcc5b, type: 3}
@@ -501,7 +502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheck: {fileID: 7366370579549328943}
-  jumpStrength: 2
+  jumpStrength: 7
 --- !u!114 &7470434871208763460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,7 +535,7 @@ MonoBehaviour:
   isClose: 0
   InteractableObject: {fileID: 0}
   theMission: {fileID: 0}
-  ItemlayerMask:
+  ItemMask:
     serializedVersion: 2
     m_Bits: 1024
   DetectMask:
@@ -988,16 +989,16 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 100
-  m_SpotAngle: 50
-  m_InnerSpotAngle: 5
+  m_Intensity: 2
+  m_Range: 50
+  m_SpotAngle: 44
+  m_InnerSpotAngle: 3
   m_CookieSize: 10
   m_Shadows:
     m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.5
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1027,7 +1028,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1

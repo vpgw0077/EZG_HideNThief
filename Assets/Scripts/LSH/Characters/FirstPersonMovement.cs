@@ -68,6 +68,7 @@ public class FirstPersonMovement : MonoBehaviour
                 }
                 
             }
+
         }
         else
         {
@@ -83,6 +84,12 @@ public class FirstPersonMovement : MonoBehaviour
         {
             WarningIMG.gameObject.SetActive(false);
         }
+
+        if (!theGround.isGrounded)
+        {
+            rb.AddForce(Vector3.down * 0.2f, ForceMode.VelocityChange);
+        }
+
     }
     IEnumerator FootStepSound()
     {
@@ -151,14 +158,14 @@ public class FirstPersonMovement : MonoBehaviour
             {
                 isRun = true;
                 Movespeed = 13f; //달리기 속도
-                Stamina_Bar.value -= 0.001f;  //스태미너 떨어지는 속도
+                Stamina_Bar.value -= 0.0005f;  //스태미너 떨어지는 속도
                 recoverTime = 0;
                 RunTime += Time.deltaTime; 
             }
-            else if (Stamina_Bar.value == 0) //스태미너가 0이 됬을때
+            else if (Stamina_Bar.value == 0) //스태미너가 0이 됐을때
             {
                 isRun = false;
-                Movespeed = 3f; //스태미너가 0이됬을때 속도
+                Movespeed = 3f; //스태미너가 0이됐을때 속도
                 recoverTime = 0;
                 RunTime = 0;
             }
@@ -177,7 +184,7 @@ public class FirstPersonMovement : MonoBehaviour
             else if (Stamina_Bar.value == 0)
             {
                 Movespeed = 3f;
-                recoverTime += Time.deltaTime;
+                recoverTime += 0.003f;
             }
         }
         if (recoverTime > 1)
@@ -186,5 +193,12 @@ public class FirstPersonMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("GameClear"))
+        {
+            GameController.instance.isClear = true;
+        }
+    }
 
 }

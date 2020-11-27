@@ -191,14 +191,7 @@ public class EnemyAI : MonoBehaviour
         {
             if (collision.transform.CompareTag("Player"))
             {
-                print("GameOver");
-            }
-        }
-        else
-        {
-            if (collision.transform.CompareTag("Player"))
-            {
-                print("NotGameOver");
+                GameController.instance.isOver = true;
             }
         }
 

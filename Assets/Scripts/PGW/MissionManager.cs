@@ -5,6 +5,7 @@ using UnityEngine;
 public class MissionManager : MonoBehaviour
 {
     public GameObject[] MissionList;
+    public Animator DoorAnim;
 
     private void Awake()
     {
@@ -13,7 +14,7 @@ public class MissionManager : MonoBehaviour
     }
     public void MissionClear()
     {
-        Debug.Log("게임 클리어");
+        DoorAnim.SetTrigger("DoorOpen");
 
     }
 

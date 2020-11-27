@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public enum BTNType
 { 
@@ -14,4 +16,17 @@ public enum BTNType
 
 public class MainUI : MonoBehaviour
 {
+    public void LoadGameScene()
+    {
+        LoadingScene.LoadScene("Map");
+    }
+    public void LoadMainScene()
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
