@@ -150,15 +150,15 @@ public class FirstPersonMovement : MonoBehaviour
             if (Stamina_Bar.value > 0)
             {
                 isRun = true;
-                Movespeed = 13f;
-                Stamina_Bar.value -= 0.001f;
+                Movespeed = 13f; //달리기 속도
+                Stamina_Bar.value -= 0.001f;  //스태미너 떨어지는 속도
                 recoverTime = 0;
-                RunTime += Time.deltaTime;
+                RunTime += Time.deltaTime; 
             }
-            else if (Stamina_Bar.value == 0)
+            else if (Stamina_Bar.value == 0) //스태미너가 0이 됬을때
             {
                 isRun = false;
-                Movespeed = 3f;
+                Movespeed = 3f; //스태미너가 0이됬을때 속도
                 recoverTime = 0;
                 RunTime = 0;
             }

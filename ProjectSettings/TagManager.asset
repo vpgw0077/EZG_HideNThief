@@ -31,7 +31,7 @@ TagManager:
   - PostProcessing
   - Effect
   - DetectZone
-  - 
+  - image
   - 
   - 
   - 
@@ -51,4 +51,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 
+    uniqueID: 3587922683
+    locked: 0
+  - name: 
+    uniqueID: 2851960679
     locked: 0
