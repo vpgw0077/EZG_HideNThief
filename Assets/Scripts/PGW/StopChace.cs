@@ -13,7 +13,7 @@ public class StopChace : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && TheAI.isAware)
         {
             TheAI.CheckDistance();
         }
