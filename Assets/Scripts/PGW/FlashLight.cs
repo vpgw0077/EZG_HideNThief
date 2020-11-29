@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,13 @@ public class FlashLight : MonoBehaviour
     public bool isON = true;
     public Slider Battery_Bar;
 
+    public GameObject KeyGuider;
+    public bool isGuideOn = true;
 
+    private void Start()
+    {
+        isGuideOn = true;
+    }
     void Update()
     {
         TryOn();
@@ -35,9 +42,25 @@ public class FlashLight : MonoBehaviour
             }
 
         }
-
-
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            Guideon();
+        }
     }
+
+    private void Guideon()
+    {
+        isGuideOn = !isGuideOn;
+        if (isGuideOn)
+        {
+            KeyGuider.SetActive(true);
+        }
+        else
+        {
+            KeyGuider.SetActive(false);
+        }
+    }
+
     public void LightON()
     {
         isON = !isON;

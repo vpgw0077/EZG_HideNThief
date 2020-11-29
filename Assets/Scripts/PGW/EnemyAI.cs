@@ -47,14 +47,7 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-         if (Vector3.Distance(Player.transform.position, transform.position) < viewDistance&& Vector3.Angle(Vector3.forward, transform.InverseTransformPoint(Player.transform.position)) < fov)
-        {
-            print("발견됨");
-        }
-        if (Vector3.Distance(Player.transform.position, transform.position) < viewDistance)
-        {
-            print("탐지거리");
-        }
+
         if (agent.velocity == CheckStuck && anim.GetBool("LookAround") == false) // 끼임 확인
         {
             wanderPoint = RandomWanderPoint();

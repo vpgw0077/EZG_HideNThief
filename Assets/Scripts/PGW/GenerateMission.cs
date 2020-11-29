@@ -40,7 +40,7 @@ public class GenerateMission : MonoBehaviour
             SfxPlayer.Play();
             theMission.CheckClear();
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 50f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 100f);
 
             foreach (var coll in colls)
             {

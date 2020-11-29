@@ -9,16 +9,15 @@ public class InteractObject : MonoBehaviour
     public bool InteractActivate;
     public bool isClose;
 
-    public RaycastHit hitInfo;
-    public RaycastHit LightInfo;
+    RaycastHit hitInfo;
+    RaycastHit Trapinfo;
 
     public Outline InteractableObject;
     public Outline WarningOutLine;
     public MissionCreate theMission;
 
     public int ItemMask;
-    public int DetectMask = 1 << 14;
-
+    public int DetectMask;
     public string GrabSound;
 
     RockController theRock;
@@ -45,17 +44,18 @@ public class InteractObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InteractableOutLine();
+        InteractableOutLine(); // 아이템 확인
+        CheckTrap(); //함정 확인
         CheckItem();
-        CheckTrap();
-        TryInteract();
+        TryInteract(); // 줍기 실행
+
 
     }
 
 
     private void InteractableOutLine()
     {
-        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 3.5f, ItemMask))
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f, ItemMask))
         {
             isClose = true;
             if (hitInfo.transform.CompareTag("Item"))
@@ -64,11 +64,14 @@ public class InteractObject : MonoBehaviour
                 {
                     OutLineDisappear();
                 }
-
                 InteractOutLine();
 
-            }
 
+            }
+            else
+            {
+                OutLineDisappear();
+            }
         }
         else
         {
@@ -77,38 +80,20 @@ public class InteractObject : MonoBehaviour
         }
 
     }
-
-    private void InteractOutLine()
-    {
-        InteractActivate = true;
-        InteractableObject = hitInfo.transform.GetComponent<Outline>();
-        InteractableObject.OutlineColor = new Color32(0, 163, 255, 100);
-        InteractableObject.OutlineWidth = 20f;
-
-    }
-
-    private void TryInteract()
-    {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            Interact();
-            InteractableOutLine();
-        }
-    }
     private void CheckItem()
     {
         if (theLight.isON && !isClose)
         {
-            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out LightInfo, 15f, DetectMask))
+            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 25f, DetectMask))
             {
-                if (LightInfo.transform.GetChild(0).gameObject.CompareTag("DetectZone"))
+                if (hitInfo.transform.GetChild(0).CompareTag("DetectZone"))
                 {
-                    if (InteractableObject != LightInfo.transform.GetComponentInParent<Outline>())
+
+                    if (InteractableObject != hitInfo.transform.GetComponentInParent<Outline>())
                     {
                         OutLineDisappear();
                     }
                     DrawOutLine();
-
                 }
                 else
                 {
@@ -121,65 +106,84 @@ public class InteractObject : MonoBehaviour
             }
         }
 
+    }
+    public void DrawOutLine()
+    {
+        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
+        InteractableObject.OutlineColor = new Color32(240, 248, 88, 255);
+        InteractableObject.OutlineWidth = 20f;
 
+    }
+
+    private void InteractOutLine() // 윤곽선 그리기
+    {
+        if (isClose)
+        {
+            InteractActivate = true;
+            InteractableObject = hitInfo.transform.GetComponent<Outline>();
+            InteractableObject.OutlineColor = new Color32(0, 163, 255, 100);
+            InteractableObject.OutlineWidth = 20f;
+
+
+        }
+    }
+
+    private void TryInteract()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Interact();
+        }
     }
     private void CheckTrap()
     {
         if (theLight.isON)
         {
-            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 12f))
+            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out Trapinfo, 12f))
             {
-                if (hitInfo.transform.CompareTag("Trap"))
+                if (Trapinfo.transform.CompareTag("Trap"))
                 {
                     TrapOutLine();
                 }
             }
             else
             {
-                OutLineDisappear();
+                TrapOutlineDisappear();
             }
+        }
+        else
+        {
+            TrapOutlineDisappear();
         }
     }
     private void TrapOutLine()
     {
-        WarningOutLine = hitInfo.transform.GetComponentInParent<Outline>();
+        WarningOutLine = Trapinfo.transform.GetComponentInParent<Outline>();
         WarningOutLine.OutlineColor = new Color32(255, 0, 0, 100);
         WarningOutLine.OutlineWidth = 20f;
     }
-    public void DrawOutLine()
-    {
-        InteractableObject = LightInfo.transform.GetComponentInParent<Outline>();
-        InteractableObject.OutlineColor = new Color32(240, 248, 88, 255);
-        InteractableObject.OutlineWidth = 20f;
-
-    }
 
 
-    public void test()
-    {
-        if (InteractableObject != null)
-        {
-            InteractableObject.OutlineWidth = 0;
-        }
-    }
-    public void OutLineDisappear()
+    public void OutLineDisappear() // 윤곽선 사라짐
     {
         if (InteractableObject != null)
         {
             InteractActivate = false;
             InteractableObject.OutlineWidth = 0;
         }
-
+    }
+    public void TrapOutlineDisappear()
+    {
         if (WarningOutLine != null)
         {
             WarningOutLine.OutlineWidth = 0;
         }
     }
-    private void Interact()
+    private void Interact() // 줍기
     {
         if (InteractActivate)
         {
-            if (hitInfo.transform != null)
+            if (hitInfo.transform.GetComponent<ItemPickUp>() != null)
             {
                 if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Generator)
                 {

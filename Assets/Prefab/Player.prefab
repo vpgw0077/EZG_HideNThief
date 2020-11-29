@@ -540,6 +540,8 @@ MonoBehaviour:
   Light: {fileID: 7470434870068907943}
   isON: 0
   Battery_Bar: {fileID: 0}
+  KeyGuider: {fileID: 0}
+  isGuideOn: 1
 --- !u!114 &7470434871208763487
 MonoBehaviour:
   m_ObjectHideFlags: 0
