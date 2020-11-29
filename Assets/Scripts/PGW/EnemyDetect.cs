@@ -17,10 +17,10 @@ public class EnemyDetect : MonoBehaviour
     {
         if (isDetected)
         {
-            sfxPlayer.volume += 0.005f;
-            if (sfxPlayer.volume >= 0.2f)
+            sfxPlayer.volume += 0.003f;
+            if (sfxPlayer.volume >= 0.1f)
             {
-                sfxPlayer.volume = 0.2f;
+                sfxPlayer.volume = 0.1f;
             }
         }
         else

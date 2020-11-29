@@ -6,11 +6,13 @@ public class RockController : GrenadeController
 {
     public static bool isActivate = false;
 
-    private void Start()
+    private void Awake()
     {
-        ItemManager.currentWeapon = currentGrenade.GetComponent<Transform>();
-        ItemManager.currentWeaponAnim = currentGrenade.anim;
+
+        isActivate = false;
+
     }
+
 
     // Update is called once per frame
     void Update()
@@ -27,6 +29,7 @@ public class RockController : GrenadeController
             FireRateCalc();
         }
     }
+
     public override void GrenadeChange(Grenade _grenade)
     {
         base.GrenadeChange(_grenade);

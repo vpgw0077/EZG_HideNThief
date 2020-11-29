@@ -6,10 +6,12 @@ public class Trap : MonoBehaviour
 {
     public float SirenRange;
     public bool isActivate = false;
+    public string SirenSfx;
 
     public void SirenTrigger()
     {
         isActivate = true;
+        SoundManager.instance.PlaySE(SirenSfx);
         Collider[] colls = Physics.OverlapSphere(transform.position, SirenRange);
 
         foreach (var coll in colls)

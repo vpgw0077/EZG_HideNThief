@@ -24,9 +24,10 @@ public class DrinkController : MonoBehaviour
 
     private void Awake()
     {
-        HoldCount = 5;
-        UpdateCount();
         itemManager = GetComponent<ItemManager>();
+        HoldCount = 0;
+        UpdateCount();
+        isActivate = false;
     }
     // Start is called before the first frame update
     void Start()

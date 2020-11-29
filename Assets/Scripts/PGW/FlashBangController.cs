@@ -6,8 +6,14 @@ public class FlashBangController : GrenadeController
 {
     public static bool isActivate = false;
 
-    // Update is called once per frame
 
+    // Update is called once per frame
+    private void Awake()
+    {
+        isActivate = false;
+
+
+    }
     void Update()
     {
         if (isActivate && !ItemManager.isChangeWeapon)

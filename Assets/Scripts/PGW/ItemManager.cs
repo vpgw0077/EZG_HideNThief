@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
     public string currentWeaponType; // 현재 무기 타입 이름
     public static Transform currentWeapon;  // 현재 무기
     public static Animator currentWeaponAnim;
+    public static int test = 4;
 
     public float changeWeaponDelayTime; // 바꾸기 딜레이
     public float changeWeaponEndDelayTime; // 바꾼 후 딜레이
@@ -37,6 +38,10 @@ public class ItemManager : MonoBehaviour
 
 
 
+    private void Awake()
+    {
+        isChangeWeapon = false;
+    }
     // Use this for initialization
     void Start()
     {
@@ -93,7 +98,10 @@ public class ItemManager : MonoBehaviour
     }
     public void RunoutItem()
     {
+
         StartCoroutine(ChangeWeaponCoroutine("HAND", "EmptyHand"));
+
+
     }
 
     public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
@@ -171,7 +179,7 @@ public class ItemManager : MonoBehaviour
 
             theDrinkController.StartCoroutine(theDrinkController.PrepareCoroutine());
         }
-        if(_type == "HAND")
+        if (_type == "HAND")
         {
             theHandController.HandChange(handDictionary[_name]);
             theHandController.StartCoroutine(theHandController.PrepareCoroutine());

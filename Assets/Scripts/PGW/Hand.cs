@@ -5,5 +5,6 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     public string HandName;
+    public Animator anim;
 
 }

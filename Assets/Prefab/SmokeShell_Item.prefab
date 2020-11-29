@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8906490681570634770}
   - component: {fileID: 3465746710067513804}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: DetectZone
   m_TagString: DetectZone
   m_Icon: {fileID: 0}

@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 0
+  outlineWidth: 5
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fb58b99f0edc554f8c3439e1fa8c675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GenType: 0
   GenerateOn: 0
   GeneratorLight: {fileID: 3023328895115428219}
   anim: {fileID: 575420942}

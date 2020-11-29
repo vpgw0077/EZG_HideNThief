@@ -47,6 +47,14 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+         if (Vector3.Distance(Player.transform.position, transform.position) < viewDistance&& Vector3.Angle(Vector3.forward, transform.InverseTransformPoint(Player.transform.position)) < fov)
+        {
+            print("발견됨");
+        }
+        if (Vector3.Distance(Player.transform.position, transform.position) < viewDistance)
+        {
+            print("탐지거리");
+        }
         if (agent.velocity == CheckStuck && anim.GetBool("LookAround") == false) // 끼임 확인
         {
             wanderPoint = RandomWanderPoint();
@@ -96,14 +104,14 @@ public class EnemyAI : MonoBehaviour
     private void SearchForPlayer()
     {
 
-        if (Vector3.Angle(Vector3.forward, transform.InverseTransformPoint(Player.transform.position)) < fov / 2f)
+        if (Vector3.Angle(Vector3.forward, transform.InverseTransformPoint(Player.transform.position)) < fov)
         {
             if (Vector3.Distance(Player.transform.position, transform.position) < viewDistance)
             {
                 RaycastHit hit;
                 if (Physics.Linecast(transform.position, Player.transform.position, out hit, -1))
                 {
-                    if (hit.transform.CompareTag("Player") && !isBlind && !isStuned)
+                    if (hit.transform.CompareTag("Player") && !isBlind && !isStuned )
                     {
                         OnAware();
                     }
@@ -134,14 +142,12 @@ public class EnemyAI : MonoBehaviour
             GameController.instance.PoliceAware.Remove(true);
             agent.enabled = false;
             anim.SetBool("Stun", true);
-
             yield return new WaitForSeconds(StunTime);
         }
 
         agent.enabled = true;
         isStuned = false;
         anim.SetBool("Stun", false);
-        Wander();
 
     }
 
@@ -152,7 +158,7 @@ public class EnemyAI : MonoBehaviour
             agent.speed = wanderSpeed;
             if (Vector3.Distance(transform.position, wanderPoint) < 1f)
             {
-                StartCoroutine(LookAround());
+                //StartCoroutine(LookAround());
                 wanderPoint = RandomWanderPoint();
             }
             else

@@ -47,7 +47,7 @@ public class ThrowWeapon : MonoBehaviour
             f_Effect.transform.parent = gameObject.transform;
             ExplodePlayer.clip = FlashOut;
             ExplodePlayer.Play();
-            Collider[] colls = Physics.OverlapSphere(transform.position, 15f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 25f);
 
             foreach (var coll in colls)
             {
@@ -77,7 +77,7 @@ public class ThrowWeapon : MonoBehaviour
         if (theThrowWeapon == WeaponType.Rock)
         {
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 200f);
+            Collider[] colls = Physics.OverlapSphere(transform.position, 50f);
 
             foreach (var coll in colls)
             {

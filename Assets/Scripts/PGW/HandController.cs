@@ -8,11 +8,23 @@ public class HandController : MonoBehaviour
     public static bool isActivate = false;
     public bool isReady = false;
 
+    private void Awake()
+    {
+        ItemManager.currentWeapon = theHand.GetComponent<Transform>();
+        ItemManager.currentWeaponAnim = theHand.anim;
+        isActivate = false;
+    } 
+    private void Start()
+    {
+
+    }
+
     public IEnumerator PrepareCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
         isReady = true;
     }
+
 
     public Hand getHand()
     {

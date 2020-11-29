@@ -12,7 +12,8 @@ public class FirstPersonMovement : MonoBehaviour
     public bool isRun;
     public float Movespeed;
     public Slider Stamina_Bar;
-    public Image WarningIMG;
+    public Image RunIcon;
+    public Image SmokeFrame;
 
     Vector2 velocity;
     Vector3 lastPos;
@@ -53,7 +54,7 @@ public class FirstPersonMovement : MonoBehaviour
                 {
                     RunTime = 0;
                     RunStepSound();
-                    
+
                 }
                 StopCoroutine(FootStepSound());
             }
@@ -66,23 +67,33 @@ public class FirstPersonMovement : MonoBehaviour
                     StartCoroutine(FootStepSound());
 
                 }
-                
+
             }
 
         }
         else
         {
             ItemManager.currentWeaponAnim.SetBool("Walk", false);
+            ItemManager.currentWeaponAnim.SetBool("Run", false);
             StopCoroutine(FootStepSound());
         }
 
-        if(GameController.instance.PoliceAware.Count > 0)
+        if (GameController.instance.PoliceAware.Count > 0)
         {
-            WarningIMG.gameObject.SetActive(true);
+            if (Stamina_Bar.image.color != new Color32(255, 40, 40, 255))
+            {
+                Stamina_Bar.image.color = new Color32(255, 40, 40, 255);
+                RunIcon.color = new Color32(255, 40, 40, 255);
+            }
         }
-        else if(GameController.instance.PoliceAware.Count == 0)
+        else if (GameController.instance.PoliceAware.Count == 0)
         {
-            WarningIMG.gameObject.SetActive(false);
+            if (Stamina_Bar.image.color != new Color32(40, 111, 40, 255))
+            {
+                Stamina_Bar.image.color = new Color32(40, 111, 255, 255);
+                RunIcon.color = new Color32(40, 111, 255, 255);
+            }
+
         }
 
         if (!theGround.isGrounded)
@@ -160,7 +171,7 @@ public class FirstPersonMovement : MonoBehaviour
                 Movespeed = 13f; //달리기 속도
                 Stamina_Bar.value -= 0.0005f;  //스태미너 떨어지는 속도
                 recoverTime = 0;
-                RunTime += Time.deltaTime; 
+                RunTime += Time.deltaTime;
             }
             else if (Stamina_Bar.value == 0) //스태미너가 0이 됐을때
             {
@@ -198,6 +209,22 @@ public class FirstPersonMovement : MonoBehaviour
         if (other.CompareTag("GameClear"))
         {
             GameController.instance.isClear = true;
+        }
+
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SmokeTrigger"))
+        {
+            SmokeFrame.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SmokeTrigger"))
+        {
+            SmokeFrame.gameObject.SetActive(false);
         }
     }
 
