@@ -45,7 +45,7 @@ public class GenerateMission : MonoBehaviour
             foreach (var coll in colls)
             {
                 var police = coll.GetComponent<EnemyAI>();
-                if (police != null)
+                if (police != null && police.isAware == false)
                 {
                     police.OnAware();
 

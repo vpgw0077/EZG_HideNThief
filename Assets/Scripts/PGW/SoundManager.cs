@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,11 +14,16 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 
-    public Sound Bgm;
+    public Sound[] Bgm;
     public AudioSource bgmPlayer;
+
+    public Sound ChaseBgm;
+    public AudioSource ChasebgmPlayer;
 
     public Sound[] SfxSounds;
     public AudioSource[] sfxPlayer;
+
+    int random;
 
     void Awake()
     {
@@ -31,6 +37,8 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         PlayBGM();
+        ChasebgmPlayer.clip = ChaseBgm.clip;
+        ChasebgmPlayer.Play();
     }
 
     public void PlaySE(string _soundName)
@@ -54,10 +62,57 @@ public class SoundManager : MonoBehaviour
         }
 
     }
+    private void Update()
+    {
+        if (GameController.instance.PoliceAware.Count == 0)
+        {
+            CheckBGM_End();
+        }
+
+        PlayChaseBgm();
+
+
+    }
+
+    private void PlayChaseBgm()
+    {
+        if (GameController.instance.PoliceAware.Count != 0)
+        {
+            bgmPlayer.Stop();
+            ChasebgmPlayer.volume += 0.001f;
+            if (ChasebgmPlayer.volume >= 0.1f)
+            {
+                ChasebgmPlayer.volume = 0.1f;
+            }
+
+            
+
+        }
+        else if (GameController.instance.PoliceAware.Count == 0)
+        {
+            ChasebgmPlayer.volume -= 0.001f;
+            if (ChasebgmPlayer.volume <= 0)
+            {
+                ChasebgmPlayer.volume = 0;
+            }
+        }
+
+    }
+
+    private void CheckBGM_End()
+    {
+        if (!bgmPlayer.isPlaying)
+        {
+            random = UnityEngine.Random.Range(0, Bgm.Length);
+            bgmPlayer.clip = Bgm[random].clip;
+            bgmPlayer.Play();
+        }
+    }
 
     public void PlayBGM()
     {
-        bgmPlayer.clip = Bgm.clip;
+        random = UnityEngine.Random.Range(0, Bgm.Length);
+        bgmPlayer.clip = Bgm[random].clip;
         bgmPlayer.Play();
     }
 
