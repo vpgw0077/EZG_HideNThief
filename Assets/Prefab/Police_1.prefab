@@ -4590,7 +4590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fov: 90
   Player: {fileID: 0}
-  viewDistance: 40
+  viewDistance: 70
   wanderRadius: 20
   wanderSpeed: 3
   ChaceSpeed: 10
