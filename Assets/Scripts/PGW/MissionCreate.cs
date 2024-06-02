@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 public class MissionCreate : MonoBehaviour
 {
-    public enum MissionList
+    /*public enum MissionList
     {
         Generator,
         Gascan,
@@ -118,7 +118,7 @@ public class MissionCreate : MonoBehaviour
             case MissionList.Survive:
                 break;
         }
-    }
+    }*/
 
 
 }

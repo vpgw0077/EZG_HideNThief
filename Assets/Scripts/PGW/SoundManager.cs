@@ -4,26 +4,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[System.Serializable]
-public class Sound
+public enum SfxType
 {
-    public string soundName;
+    grenadeThrow,
+    itemGrab
+}
+[System.Serializable]
+public class SfxSound
+{
+    public SfxType sfxType;
     public AudioClip clip;
 }
+[System.Serializable]
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance = null;
 
-    public Sound[] Bgm;
-    public AudioSource bgmPlayer;
+    [SerializeField] private AudioClip[] usualBgmClip = null;
+    [SerializeField] private AudioSource usualBgmPlayer = null;
 
-    public Sound ChaseBgm;
-    public AudioSource ChasebgmPlayer;
+    [Space]
+    [Space]
+    [SerializeField] private AudioClip chaseBgmClip = null;
+    [SerializeField] private AudioSource ChasebgmPlayer = null;
 
-    public Sound[] SfxSounds;
-    public AudioSource[] sfxPlayer;
+    [Space]
+    [Space]
+    [SerializeField] private SfxSound[] SfxSounds = null;
+    [SerializeField] private AudioSource[] sfxPlayer = null;
 
-    int random;
+    private int randomClipIndex = 0;
 
     void Awake()
     {
@@ -37,16 +47,16 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         PlayBGM();
-        ChasebgmPlayer.clip = ChaseBgm.clip;
+        ChasebgmPlayer.clip = chaseBgmClip;
         ChasebgmPlayer.Play();
     }
 
-    public void PlaySE(string _soundName)
+    public void PlaySE(SfxType type)
     {
 
         for (int i = 0; i < SfxSounds.Length; i++)
         {
-            if (_soundName == SfxSounds[i].soundName)
+            if (type == SfxSounds[i].sfxType)
             {
                 for (int x = 0; x < sfxPlayer.Length; x++)
                 {
@@ -57,14 +67,14 @@ public class SoundManager : MonoBehaviour
                         return;
                     }
                 }
-                return;
+
             }
         }
 
     }
     private void Update()
     {
-        if (GameController.instance.PoliceAware.Count == 0)
+        if (GameController.instance.awarePoliceList.Count == 0)
         {
             CheckBGM_End();
         }
@@ -76,19 +86,19 @@ public class SoundManager : MonoBehaviour
 
     private void PlayChaseBgm()
     {
-        if (GameController.instance.PoliceAware.Count != 0)
+        if (GameController.instance.awarePoliceList.Count != 0)
         {
-            bgmPlayer.Stop();
+            usualBgmPlayer.Stop();
             ChasebgmPlayer.volume += 0.001f;
             if (ChasebgmPlayer.volume >= 0.1f)
             {
                 ChasebgmPlayer.volume = 0.1f;
             }
 
-            
+
 
         }
-        else if (GameController.instance.PoliceAware.Count == 0)
+        else if (GameController.instance.awarePoliceList.Count == 0)
         {
             ChasebgmPlayer.volume -= 0.001f;
             if (ChasebgmPlayer.volume <= 0)
@@ -101,19 +111,19 @@ public class SoundManager : MonoBehaviour
 
     private void CheckBGM_End()
     {
-        if (!bgmPlayer.isPlaying)
+        if (!usualBgmPlayer.isPlaying)
         {
-            random = UnityEngine.Random.Range(0, Bgm.Length);
-            bgmPlayer.clip = Bgm[random].clip;
-            bgmPlayer.Play();
+            randomClipIndex = UnityEngine.Random.Range(0, usualBgmClip.Length);
+            usualBgmPlayer.clip = usualBgmClip[randomClipIndex];
+            usualBgmPlayer.Play();
         }
     }
 
     public void PlayBGM()
     {
-        random = UnityEngine.Random.Range(0, Bgm.Length);
-        bgmPlayer.clip = Bgm[random].clip;
-        bgmPlayer.Play();
+        randomClipIndex = UnityEngine.Random.Range(0, usualBgmClip.Length);
+        usualBgmPlayer.clip = usualBgmClip[randomClipIndex];
+        usualBgmPlayer.Play();
     }
 
 }

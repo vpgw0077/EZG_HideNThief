@@ -5,129 +5,225 @@ using UnityEngine;
 
 public class InteractObject : MonoBehaviour
 {
-    public GameObject theCamera;
-    public bool InteractActivate;
-    public bool isClose;
+    public delegate void Battery_EventHandler();
+    public event Battery_EventHandler RechargeBattery;
+    public event Battery_EventHandler LightOnEvent;
 
-    RaycastHit hitInfo;
-    RaycastHit Trapinfo;
+    [SerializeField] private GameObject theCamera = null;
+    [SerializeField] private Light flashLight = null;
+    [SerializeField] private float decreaseValue = 0.0005f;
 
-    public Outline InteractableObject;
-    public Outline WarningOutLine;
-    public MissionCreate theMission;
+    [SerializeField] private float battery = 0;
+    private float Battery
+    {
+        get => battery;
+        set => battery = Mathf.Clamp(value, 0, 1f);
+    }
 
-    public int ItemMask;
-    public int DetectMask;
-    public string GrabSound;
+    private bool isLightON = false;
 
-    RockController theRock;
-    SmokeShellController theSmoke;
-    FlashBangController theFlash;
-    DrinkController theDrink;
-    FlashLight theLight;
+    private bool InteractActivate = false;
+    private bool isClose = false;
+
+    private RaycastHit hitInfo;
+
+    private Outline InteractableObject = null;
+    private Outline WarningOutLine = null;
+    private ItemManager itemManager = null;
+
+    private float batteryIncreaseValue = 0.2f;
+    private float outLineWidth = 20f;
+    private int ItemMask = 0;
+    private int DetectMask = 0;
+    private int trapMask = 0;
+
+    private readonly Color32 yellowOutLine = new Color32(240, 248, 88, 255);
+    private readonly Color32 blueOutLine = new Color32(0, 163, 255, 100);
+    private readonly Color32 redOutLine = new Color32(255, 0, 0, 100);
+
+    private const string tagBattery = "Battery";
+    private const string tagDetectZone = "DetectZone";
+    private const string tagItem = "Item";
+    private const string tagTrap = "Trap";
+    private const string tagMissionObject = "MissionObject";
+
     // Start is called before the first frame update
 
+    private void Awake()
+    {
+        itemManager = GetComponentInChildren<ItemManager>();
+    }
     void Start()
     {
-        theMission = FindObjectOfType<MissionCreate>();
-        theLight = GetComponent<FlashLight>();
-        theRock = GetComponentInChildren<RockController>();
-        theSmoke = GetComponentInChildren<SmokeShellController>();
-        theFlash = GetComponentInChildren<FlashBangController>();
-        theDrink = GetComponentInChildren<DrinkController>();
         ItemMask = 1 << 10;
         DetectMask = 1 << 14;
-
+        trapMask = 1 << 16;
+        Battery = 1f;
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        InteractableOutLine(); // 아이템 확인
-        CheckTrap(); //함정 확인
-        CheckItem();
+        TryOn();
+        if (isLightON)
+        {
+            Battery -= decreaseValue * Time.deltaTime;
+            LightOnEvent?.Invoke();
+        }
+        if (Battery == 0 && isLightON)
+        {
+            BatteryOut();
+        }
+        FindInteractableObject();
+        FindTrap();
+        CheckDistanceItem();
         TryInteract(); // 줍기 실행
 
 
     }
-
-
-    private void InteractableOutLine()
+    private void CheckDistanceItem()
     {
-        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f, ItemMask))
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f, ItemMask, QueryTriggerInteraction.Ignore))
         {
             isClose = true;
-            if (hitInfo.transform.CompareTag("Item"))
+        }
+
+        else
+        {
+            isClose = false;
+        }
+    }
+    private void FindInteractableObject()
+    {
+
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 25f, DetectMask) && isLightON && !isClose)
+        {
+            if (hitInfo.transform.GetChild(0).CompareTag(tagDetectZone))
+            {
+
+                if (InteractableObject != hitInfo.transform.GetComponentInParent<Outline>()) // InteractableObject의 오브젝트와 광선의 맞은 오브젝트가 다르다면
+                {                                                                            // InteractableObject의 윤곽선 제거
+                    OutLineDisappear(tagDetectZone);
+                }
+                DrawOutLine(tagDetectZone);
+            }
+
+
+        }
+
+        else if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 5f, ItemMask, QueryTriggerInteraction.Ignore))
+        {
+            if (hitInfo.transform.CompareTag(tagItem) || hitInfo.transform.CompareTag(tagBattery) || hitInfo.transform.CompareTag(tagMissionObject))
             {
                 if (InteractableObject != hitInfo.transform.GetComponent<Outline>())
                 {
-                    OutLineDisappear();
+                    OutLineDisappear(tagItem);
                 }
-                InteractOutLine();
+                DrawOutLine(tagItem);
 
 
-            }
-            else
-            {
-                OutLineDisappear();
             }
         }
         else
         {
-            isClose = false;
-            OutLineDisappear();
+            OutLineDisappear(tagItem);
         }
 
-    }
-    private void CheckItem()
-    {
-        if (theLight.isON && !isClose)
-        {
-            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 25f, DetectMask))
-            {
-                if (hitInfo.transform.GetChild(0).CompareTag("DetectZone"))
-                {
 
-                    if (InteractableObject != hitInfo.transform.GetComponentInParent<Outline>())
+    }
+
+    private void FindTrap()
+    {
+
+        if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out hitInfo, 25f, trapMask) && isLightON)
+        {
+            if (hitInfo.transform.CompareTag(tagTrap))
+            {
+                DrawOutLine(tagTrap);
+            }
+        }
+
+        else
+        {
+            OutLineDisappear(tagTrap);
+        }
+
+
+    }
+    private void TryOn()
+    {
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            if (Battery > 0)
+            {
+                LightON();
+
+            }
+
+        }
+    }
+
+    private void LightON()
+    {
+        isLightON = !isLightON;
+        if (isLightON)
+        {
+            flashLight.enabled = true;
+
+        }
+
+        else
+        {
+            flashLight.enabled = false;
+        }
+    }
+
+    private void BatteryOut()
+    {
+        isLightON = false;
+        flashLight.enabled = false;
+    }
+
+    private void DrawOutLine(string objectTag)
+    {
+        switch (objectTag)
+        {
+            case tagDetectZone:
+                if (InteractableObject == null)
+                {
+                    InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
+                }
+                InteractableObject.OutlineColor = yellowOutLine;
+                InteractableObject.OutlineWidth = outLineWidth;
+                break;
+
+            case tagItem:
+                if (isClose)
+                {
+                    InteractActivate = true;
+                    if (InteractableObject == null)
                     {
-                        OutLineDisappear();
+                        InteractableObject = hitInfo.transform.GetComponent<Outline>();
                     }
-                    DrawOutLine();
+                    InteractableObject.OutlineColor = blueOutLine;
+                    InteractableObject.OutlineWidth = outLineWidth;
+
                 }
-                else
+                break;
+
+            case tagTrap:
+                if (WarningOutLine == null)
                 {
-                    OutLineDisappear();
+
+                    WarningOutLine = hitInfo.transform.GetComponentInParent<Outline>();
                 }
-            }
-            else
-            {
-                OutLineDisappear();
-            }
+                WarningOutLine.OutlineColor = redOutLine;
+                WarningOutLine.OutlineWidth = outLineWidth;
+                break;
         }
 
     }
-    public void DrawOutLine()
-    {
-        InteractableObject = hitInfo.transform.GetComponentInParent<Outline>();
-        InteractableObject.OutlineColor = new Color32(240, 248, 88, 255);
-        InteractableObject.OutlineWidth = 20f;
-
-    }
-
-    private void InteractOutLine() // 윤곽선 그리기
-    {
-        if (isClose)
-        {
-            InteractActivate = true;
-            InteractableObject = hitInfo.transform.GetComponent<Outline>();
-            InteractableObject.OutlineColor = new Color32(0, 163, 255, 100);
-            InteractableObject.OutlineWidth = 20f;
-
-
-        }
-    }
-
     private void TryInteract()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -135,131 +231,70 @@ public class InteractObject : MonoBehaviour
             Interact();
         }
     }
-    private void CheckTrap()
+
+
+    public void OutLineDisappear(string objectTag) // 윤곽선 사라짐
     {
-        if (theLight.isON)
+        switch (objectTag)
         {
-            if (Physics.Raycast(theCamera.transform.position, theCamera.transform.forward, out Trapinfo, 12f))
-            {
-                if (Trapinfo.transform.CompareTag("Trap"))
+            case tagTrap:
+                if (WarningOutLine != null)
                 {
-                    TrapOutLine();
+                    WarningOutLine.OutlineWidth = 0;
+                    WarningOutLine = null;
                 }
-            }
-            else
-            {
-                TrapOutlineDisappear();
-            }
+                break;
+
+            default:
+                if (InteractableObject != null)
+                {
+                    InteractActivate = false;
+                    InteractableObject.OutlineWidth = 0;
+                    InteractableObject = null;
+                }
+                break;
+
         }
-        else
-        {
-            TrapOutlineDisappear();
-        }
-    }
-    private void TrapOutLine()
-    {
-        WarningOutLine = Trapinfo.transform.GetComponentInParent<Outline>();
-        WarningOutLine.OutlineColor = new Color32(255, 0, 0, 100);
-        WarningOutLine.OutlineWidth = 20f;
     }
 
-
-    public void OutLineDisappear() // 윤곽선 사라짐
+    private void GetBattery(GameObject batteryItem)
     {
-        if (InteractableObject != null)
-        {
-            InteractActivate = false;
-            InteractableObject.OutlineWidth = 0;
-        }
-    }
-    public void TrapOutlineDisappear()
-    {
-        if (WarningOutLine != null)
-        {
-            WarningOutLine.OutlineWidth = 0;
-        }
+        Battery += batteryIncreaseValue;
+        batteryItem.SetActive(false);
     }
     private void Interact() // 줍기
     {
         if (InteractActivate)
         {
-            if (hitInfo.transform.GetComponent<ItemPickUp>() != null)
+
+            if (hitInfo.transform.CompareTag(tagItem))
             {
-                if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Generator)
+                var itemInfo = hitInfo.transform.GetComponent<ItemPickUp>();
+                if (itemInfo != null)
                 {
-                    var Gen = hitInfo.transform.GetComponent<GenerateMission>();
-                    if (!Gen.GenerateOn)
-                    {
-                        Gen.Operation();
-                        OutLineDisappear();
-                    }
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Battery)
-                {
-                    if (theLight.Battery_Bar.value < 1)
-                    {
-                        theLight.Battery_Bar.value += 0.2f;
-                        OutLineDisappear();
-                        SoundManager.instance.PlaySE(GrabSound);
-                        hitInfo.transform.gameObject.SetActive(false);
-
-                    }
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCanGenerator)
-                {
-                    var Gen = hitInfo.transform.GetComponent<GenerateMission>();
-                    Gen.Operation();
-                    OutLineDisappear();
+                    itemManager.GetEquipment(hitInfo.transform.gameObject, itemInfo.item.itemID);
 
                 }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.GasCan)
-                {
-                    ++theMission.CurrentGascan;
-                    OutLineDisappear();
-                    SoundManager.instance.PlaySE(GrabSound);
-                    hitInfo.transform.gameObject.SetActive(false); ;
 
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.Rock && !(theRock.HoldCount >= theRock.MaxCount))
-                {
-                    theRock.HoldCount += 1;
-                    theRock.UpdateCount();
-                    OutLineDisappear();
-                    SoundManager.instance.PlaySE(GrabSound);
-                    hitInfo.transform.gameObject.SetActive(false);
-
-
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.FlashBang && !(theFlash.HoldCount >= theFlash.MaxCount))
-                {
-                    theFlash.HoldCount += 1;
-                    theFlash.UpdateCount();
-                    OutLineDisappear();
-                    SoundManager.instance.PlaySE(GrabSound);
-                    hitInfo.transform.gameObject.SetActive(false);
-
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.SmokeShell && !(theSmoke.HoldCount >= theSmoke.MaxCount))
-                {
-                    theSmoke.HoldCount += 1;
-                    theSmoke.UpdateCount();
-                    OutLineDisappear();
-                    SoundManager.instance.PlaySE(GrabSound);
-                    hitInfo.transform.gameObject.SetActive(false);
-
-                }
-                else if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemType == Item.ItemName.EnergyDrink && !(theDrink.HoldCount >= theDrink.MaxCount))
-                {
-                    theDrink.HoldCount += 1;
-                    theDrink.UpdateCount();
-                    OutLineDisappear();
-                    SoundManager.instance.PlaySE(GrabSound);
-                    hitInfo.transform.gameObject.SetActive(false);
-
-
-                }
             }
 
+            else if (hitInfo.transform.CompareTag(tagBattery) && Battery < 1f)
+            {
+                GetBattery(hitInfo.transform.gameObject);
+                RechargeBattery?.Invoke();
+            }
+
+            else
+            {
+                var missionInfo = hitInfo.transform.GetComponent<IMissionTrigger>();
+                if (missionInfo != null)
+                {
+                    missionInfo.TriggerMission();
+                }
+
+            }
+
+            SoundManager.instance.PlaySE(SfxType.itemGrab);
         }
     }
 

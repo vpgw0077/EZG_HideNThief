@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   itemType: 6
+  itemID: 4

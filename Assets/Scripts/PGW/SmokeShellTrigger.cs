@@ -11,7 +11,7 @@ public class SmokeShellTrigger : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             theEnemy = other.GetComponent<EnemyAI>();
-            theEnemy.isBlind = true;
+           // theEnemy.isBlind = true;
         }
     }
 
@@ -20,7 +20,7 @@ public class SmokeShellTrigger : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             theEnemy = other.GetComponent<EnemyAI>();
-            theEnemy.isBlind = false;
+            //theEnemy.isBlind = false;
         }
     }
 

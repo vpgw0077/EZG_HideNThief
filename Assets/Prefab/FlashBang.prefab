@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7658920263906467773}
   - component: {fileID: 8774657834782408592}
   - component: {fileID: 2143591829200305635}
-  - component: {fileID: 413580001361943241}
   - component: {fileID: 736244073805666389}
   - component: {fileID: 8707865724583224445}
+  - component: {fileID: 7739403601776653015}
   m_Layer: 10
   m_Name: FlashBang
   m_TagString: Untagged
@@ -43,7 +43,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7656506131118698681}
-  m_Material: {fileID: 13400000, guid: 04f91734679a777498b327710acfa9de, type: 2}
+  m_Material: {fileID: 13400000, guid: 779c8e82b1009e44796718f5c8d25c39, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.17
@@ -66,34 +66,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &413580001361943241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7656506131118698681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605cfe8d6a0043d4a8eefb6cb23c07ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Smoke_Effect: {fileID: 0}
-  Flash_Effect: {fileID: 3840596975831349788, guid: 259999728511ad5418d6f362d350aa75,
-    type: 3}
-  OnGroundSfx:
-  - {fileID: 8300000, guid: b3c03e9688f6d724eaed32e2c17199b0, type: 3}
-  - {fileID: 8300000, guid: a3c2c98a30d5dd84bb465ec4b8ec6780, type: 3}
-  - {fileID: 8300000, guid: f8090d2efa9843941a8933ec9f13d62e, type: 3}
-  EmptyCanSfx:
-  - {fileID: 8300000, guid: d927d01f78b197d479be248527f6177b, type: 3}
-  - {fileID: 8300000, guid: 542d4e21bda968445acac8e533a44a8d, type: 3}
-  - {fileID: 8300000, guid: a679a8744f97ec34ab62f28fbd1d6a77, type: 3}
-  SmokeOut: {fileID: 0}
-  FlashOut: {fileID: 8300000, guid: 5b596d364a2c0224e97b36d772f4a10a, type: 3}
-  SoundPlayer: {fileID: 736244073805666389}
-  ExplodePlayer: {fileID: 8707865724583224445}
-  theThrowWeapon: 0
 --- !u!82 &736244073805666389
 AudioSource:
   m_ObjectHideFlags: 0
@@ -340,6 +312,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7739403601776653015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7656506131118698681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d320acf3957e0f44ad11ee6e7426419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGroundAudioPlayer: {fileID: 736244073805666389}
+  onGroundSfx:
+  - {fileID: 8300000, guid: d927d01f78b197d479be248527f6177b, type: 3}
+  - {fileID: 8300000, guid: 542d4e21bda968445acac8e533a44a8d, type: 3}
+  - {fileID: 8300000, guid: a679a8744f97ec34ab62f28fbd1d6a77, type: 3}
+  flashBangRange: 30
+  flashBangClip: {fileID: 8300000, guid: 5b596d364a2c0224e97b36d772f4a10a, type: 3}
+  greandeAudioPlayer: {fileID: 8707865724583224445}
 --- !u!1 &7656882383734223841
 GameObject:
   m_ObjectHideFlags: 0

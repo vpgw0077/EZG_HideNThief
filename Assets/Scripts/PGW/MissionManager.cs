@@ -4,18 +4,12 @@ using UnityEngine;
 
 public class MissionManager : MonoBehaviour
 {
-    public GameObject[] MissionList;
-    public Animator DoorAnim;
-
+    private Mission[] MissionList;
     private void Awake()
     {
-        var r = Random.Range(0, 2);
-        Instantiate(MissionList[r], transform.position, Quaternion.identity);
-    }
-    public void MissionClear()
-    {
-        DoorAnim.SetTrigger("DoorOpen");
-
+        MissionList = gameObject.GetComponentsInChildren<Mission>(true);
+        var r = Random.Range(0, MissionList.Length);
+        MissionList[r].gameObject.SetActive(true);
     }
 
 }

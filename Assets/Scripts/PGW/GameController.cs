@@ -1,58 +1,51 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
+public enum GameOverType
+{
+    Victory,
+    Defeat
+}
 public class GameController : MonoBehaviour
 {
+    [SerializeField] private Animator anim = null;
+    [SerializeField] private GameObject OptionUI = null;
+
+    public delegate void AwareIcon_EventHandler();
+    public AwareIcon_EventHandler WarningIconEvent;
+    public AwareIcon_EventHandler IdleIconEvent;
+
     public static GameController instance;
 
-    public Animator anim;
+    public List<EnemyAI> awarePoliceList = new List<EnemyAI>();
 
-    public bool isOver;
-    public bool isClear;
-    public bool isStop;
+    private bool isGameOver;
+    private bool isStop;
+    public bool IsStop
+    {
+        get => isStop;
+        private set => isStop = value;
+    }
 
-    public GameObject OptionUI;
-    public GameObject GenIcon;
-    public GameObject GasCanIcon;
 
-    public Text MissionCount;
-
-    bool isGascan;
-    bool isGen;
-
-    public List<bool> PoliceAware = new List<bool>();
-
-    MissionCreate Mission;
     private void Awake()
     {
-        instance = this;
-    }
-    private void Start()
-    {
-        Mission = FindObjectOfType<MissionCreate>();
-        if(Mission.theMission == MissionCreate.MissionList.Gascan)
+        if (instance == null)
         {
-            isGascan = true;
-            GasCanIcon.SetActive(true);
-        }
-        else if(Mission.theMission == MissionCreate.MissionList.Generator)
-        {
-            isGen = true;
-            GenIcon.SetActive(true);
+
+            instance = this;
         }
     }
+
 
     void Update()
     {
-        CheckGameOver();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isStop)
+            if (IsStop)
             {
 
                 Resume();
@@ -65,40 +58,43 @@ public class GameController : MonoBehaviour
 
             }
         }
-        CheckMissionCount();
     }
 
-    private void CheckMissionCount()
+    public void AddAwaredPolice(EnemyAI awaredPolice)
     {
-        if (isGascan)
+        if (awarePoliceList.Count == 0)
         {
-            MissionCount.text = Mission.CurrentGascan.ToString() + " / " + Mission.RequireGascan.ToString();
-
+            WarningIconEvent?.Invoke();
         }
-        else if (isGen)
-        {
-            MissionCount.text = Mission.CurrentGenerator.ToString() + " / " + Mission.RequireGenerator.ToString();
-
-        }
-
+        awarePoliceList.Add(awaredPolice);
     }
 
+    public void RemoveAwaredPolice(EnemyAI awaredPolice)
+    {
+        awarePoliceList.Remove(awaredPolice);
+        if (awarePoliceList.Count == 0)
+        {
+            IdleIconEvent?.Invoke();
+        }
+    }
     public void Resume()
     {
-        Cursor.lockState = CursorLockMode.Locked; // 마우스를 게임 중앙 좌표에 고정시키고 마우스커서가 안보임
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         OptionUI.SetActive(false);
-        isStop = false;
+        IsStop = false;
 
 
     }
 
     public void Pause()
     {
+        Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         OptionUI.SetActive(true);
-        isStop = true;
+        IsStop = true;
 
 
     }
@@ -107,33 +103,26 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void CheckGameOver()
+    public IEnumerator GameOver(GameOverType type)
     {
-        if (isOver)
-        {
-            StartCoroutine(GameOver());
-        }
+        if (isGameOver) yield break;
 
-        if (isClear)
-        {
-            StartCoroutine(GameClear());
-        }
-    }
-    IEnumerator GameOver()
-    {
+        isGameOver = true;
         anim.SetTrigger("FadeOut");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("GameOver");
-    }
+        switch (type)
+        {
+            case GameOverType.Victory:
+                SceneManager.LoadScene("GameClear");
+                break;
 
-    IEnumerator GameClear()
-    {
-        anim.SetTrigger("FadeOut");
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("GameClear");
+            case GameOverType.Defeat:
+                SceneManager.LoadScene("GameOver");
+                break;
+
+        }
+
     }
 }

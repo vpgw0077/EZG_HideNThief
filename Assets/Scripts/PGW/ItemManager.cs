@@ -5,190 +5,85 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
 
-    public static bool isChangeWeapon = false;
-    public string currentWeaponType; // 현재 무기 타입 이름
-    public static Transform currentWeapon;  // 현재 무기
-    public static Animator currentWeaponAnim;
-    public static int test = 4;
+    [Header("KeyCode")]
+    [SerializeField] private KeyCode rock_KeyCode = KeyCode.Alpha1;
+    [SerializeField] private KeyCode flashBang_KeyCode = KeyCode.Alpha2;
+    [SerializeField] private KeyCode smokeShell_KeyCode = KeyCode.Alpha3;
+    [SerializeField] private KeyCode energyDrink_KeyCode = KeyCode.Alpha4;
 
-    public float changeWeaponDelayTime; // 바꾸기 딜레이
-    public float changeWeaponEndDelayTime; // 바꾼 후 딜레이
+    [Space]
+    [HideInInspector] public Equipment currentEquipment = null;
+    [HideInInspector] public Animator currentEquipAnim = null;
 
-
-
-
-    public Grenade[] grenades; // 투척무기 리스트
-    public Energy_Drink[] drinks;
-    public Hand[] Hands;
+    [SerializeField] private Equipment[] equipments = null; // 아이템 획득을 위한 변수 
+                                                            // Item의 아이디와 Hierarchy의 장비 순서와 일치해야함 Rock - flashBang - smokeShell - Drink 순
 
 
+    [Space]
+    [SerializeField] private Equipment equipment_Rock = null;
+    [SerializeField] private Equipment equipment_flashBang = null;
+    [SerializeField] private Equipment equipment_smokeShell = null;
+    [SerializeField] private Equipment equipment_energyDrink = null;
 
-    public Dictionary<string, Grenade> grenadeDictionary = new Dictionary<string, Grenade>();
-    public Dictionary<string, Energy_Drink> drinkDictionary = new Dictionary<string, Energy_Drink>();
-    public Dictionary<string, Hand> handDictionary = new Dictionary<string, Hand>();
-
-
-
-
-    public RockController theRockController;
-    public FlashBangController theFlashController;
-    public SmokeShellController theSmokeController;
-    public DrinkController theDrinkController;
-    public HandController theHandController;
-
-
-
-    private void Awake()
-    {
-        isChangeWeapon = false;
-    }
-    // Use this for initialization
-    void Start()
-    {
-        for (int i = 0; i < grenades.Length; i++)
-        {
-            grenadeDictionary.Add(grenades[i].grenadName, grenades[i]);
-        }
-        for (int i = 0; i < drinks.Length; i++)
-        {
-            drinkDictionary.Add(drinks[i].DrinkName, drinks[i]);
-        }
-        for (int i = 0; i < Hands.Length; i++)
-        {
-            handDictionary.Add(Hands[i].HandName, Hands[i]);
-        }
-
-
-    }
 
     // Update is called once per frame
     void Update()
     {
-
-        if (!isChangeWeapon)
+        if(currentEquipment != null && currentEquipment.HoldCount == 0) // 아이템 사용 후 0개가 되면 장비를 해제
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1) && RockController.isActivate == false && theRockController.HoldCount > 0)
-            {
-                StartCoroutine(ChangeWeaponCoroutine("GRENADE_ROCK", "Rock"));
-
-            }
-
-
-            else if (Input.GetKeyDown(KeyCode.Alpha2) && FlashBangController.isActivate == false && theFlashController.HoldCount > 0)
-            {
-
-                StartCoroutine(ChangeWeaponCoroutine("GRENADE_FLASH", "FlashBang"));
-
-            }
-
-            else if (Input.GetKeyDown(KeyCode.Alpha3) && SmokeShellController.isActivate == false && theSmokeController.HoldCount > 0)
-            {
-
-                StartCoroutine(ChangeWeaponCoroutine("GRENADE_SMOKE", "SmokeShell"));
-
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha4) && DrinkController.isActivate == false && theDrinkController.HoldCount > 0)
-            {
-
-                StartCoroutine(ChangeWeaponCoroutine("ENERGY_DRINK", "EnergyDrink"));
-
-            }
+            currentEquipment = null;
         }
 
+        if (Input.GetKeyDown(rock_KeyCode))
+        {
+
+            ChangeEquipment(equipment_Rock);
+
+        }
+
+        else if (Input.GetKeyDown(flashBang_KeyCode))
+        {
+
+            ChangeEquipment(equipment_flashBang);
+
+        }
+
+        else if (Input.GetKeyDown(smokeShell_KeyCode))
+        {
+
+            ChangeEquipment(equipment_smokeShell);
+
+        }
+        else if (Input.GetKeyDown(energyDrink_KeyCode))
+        {
+
+            ChangeEquipment(equipment_energyDrink);
+
+        }
+
+
     }
-    public void RunoutItem()
+    public void GetEquipment(GameObject item, int id)
     {
+        if (equipments[id].HoldCount == equipments[id].maxCount) return;
 
-        StartCoroutine(ChangeWeaponCoroutine("HAND", "EmptyHand"));
-
-
+        equipments[id].HoldCount++;
+        var holdCount = equipments[id].HoldCount;
+        item.SetActive(false);
     }
-
-    public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
+    private void ChangeEquipment(Equipment equipment)
     {
-        isChangeWeapon = true;
-        currentWeaponAnim.SetTrigger("Weapon_Out");
-        yield return new WaitForSeconds(changeWeaponDelayTime);
+        if (currentEquipment == equipment || equipment.HoldCount <= 0) return;
 
+        if (currentEquipment != null)
+        {
+            currentEquipment.EquipOut();
+        }
+        currentEquipment = equipment;
+        currentEquipAnim = equipment.equipAnim;
+        StartCoroutine(equipment.EquipReady());
 
-        CanclePreWeaponAction();
-        WeaponChange(_type, _name);
-
-        yield return new WaitForSeconds(changeWeaponEndDelayTime);
-
-        currentWeaponType = _type;
-        isChangeWeapon = false;
     }
 
-    public void CanclePreWeaponAction()
-    {
-        switch (currentWeaponType)
-        {
-            case "GRENADE_ROCK":
-                RockController.isActivate = false;
-                break;
-            case "GRENADE_FLASH":
-                FlashBangController.isActivate = false;
-                break;
-            case "GRENADE_SMOKE":
-                SmokeShellController.isActivate = false;
-                break;
-            case "ENERGY_DRINK":
-                DrinkController.isActivate = false;
-                break;
-            case "HAND":
-                HandController.isActivate = false;
-                break;
-
-        }
-    }
-    public void WeaponChange(string _type, string _name)
-    {
-
-
-        if (_type == "GRENADE_ROCK")
-        {
-            theRockController.GrenadeChange(grenadeDictionary[_name]);
-
-            theRockController.StartCoroutine(theRockController.PrepareCoroutine());
-
-        }
-        if (_type == "GRENADE_FLASH")
-        {
-
-            theFlashController.GrenadeChange(grenadeDictionary[_name]);
-
-
-
-            theFlashController.StartCoroutine(theFlashController.PrepareCoroutine());
-
-        }
-        if (_type == "GRENADE_SMOKE")
-        {
-
-            theSmokeController.GrenadeChange(grenadeDictionary[_name]);
-
-
-            theSmokeController.StartCoroutine(theSmokeController.PrepareCoroutine());
-        }
-        if (_type == "ENERGY_DRINK")
-        {
-
-            theDrinkController.DrinkChange(drinkDictionary[_name]);
-
-
-            theDrinkController.StartCoroutine(theDrinkController.PrepareCoroutine());
-        }
-        if (_type == "HAND")
-        {
-            theHandController.HandChange(handDictionary[_name]);
-            theHandController.StartCoroutine(theHandController.PrepareCoroutine());
-        }
-
-
-
-
-
-    }
 
 }

@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7742765002779991556}
   - component: {fileID: 7499232914637052904}
   - component: {fileID: 2172621121668530129}
-  - component: {fileID: 3843486446528347041}
   - component: {fileID: -7645063408408647089}
   - component: {fileID: 8336355838022931682}
+  - component: {fileID: 3443113041595970518}
   m_Layer: 10
   m_Name: Rock
   m_TagString: Untagged
@@ -99,33 +99,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &3843486446528347041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580713651329289688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605cfe8d6a0043d4a8eefb6cb23c07ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Smoke_Effect: {fileID: 0}
-  Flash_Effect: {fileID: 0}
-  OnGroundSfx:
-  - {fileID: 8300000, guid: b3c03e9688f6d724eaed32e2c17199b0, type: 3}
-  - {fileID: 8300000, guid: a3c2c98a30d5dd84bb465ec4b8ec6780, type: 3}
-  - {fileID: 8300000, guid: f8090d2efa9843941a8933ec9f13d62e, type: 3}
-  EmptyCanSfx:
-  - {fileID: 8300000, guid: d927d01f78b197d479be248527f6177b, type: 3}
-  - {fileID: 8300000, guid: 542d4e21bda968445acac8e533a44a8d, type: 3}
-  - {fileID: 8300000, guid: a679a8744f97ec34ab62f28fbd1d6a77, type: 3}
-  SmokeOut: {fileID: 0}
-  FlashOut: {fileID: 0}
-  SoundPlayer: {fileID: -7645063408408647089}
-  ExplodePlayer: {fileID: 0}
-  theThrowWeapon: 1
 --- !u!82 &-7645063408408647089
 AudioSource:
   m_ObjectHideFlags: 0
@@ -265,9 +238,27 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580713651329289688}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 779c8e82b1009e44796718f5c8d25c39, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.73, y: 0.73, z: 0.73}
   m_Center: {x: 0.103084564, y: 0.3843176, z: -0.05121477}
+--- !u!114 &3443113041595970518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580713651329289688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d1a4c160a213144ba0f14da56fb70cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGroundAudioPlayer: {fileID: -7645063408408647089}
+  onGroundSfx:
+  - {fileID: 8300000, guid: b3c03e9688f6d724eaed32e2c17199b0, type: 3}
+  - {fileID: 8300000, guid: a3c2c98a30d5dd84bb465ec4b8ec6780, type: 3}
+  - {fileID: 8300000, guid: f8090d2efa9843941a8933ec9f13d62e, type: 3}
+  rockSoundRange: 50

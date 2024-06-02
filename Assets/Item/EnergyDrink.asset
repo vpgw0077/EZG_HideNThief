@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: EnergyDrink
   m_EditorClassIdentifier: 
   itemType: 5
+  itemID: 3

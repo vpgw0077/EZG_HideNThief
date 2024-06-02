@@ -1,69 +1,61 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Linq;
 
-public class GenerateMission : MonoBehaviour
+
+public class GenerateMission : Mission
 {
-    public enum GeneratorType
-    {
-        Common,
-        GasCanGenerator
-    }
-    public GeneratorType GenType;
-    public bool GenerateOn = false;
-    public GameObject GeneratorLight;
-    public Animator anim;
+    [SerializeField] private GameObject generator = null;
 
-    public AudioSource SfxPlayer;
+    [SerializeField] private int currentGen = 0;
 
-    MissionCreate theMission;
+    private readonly int requireGen = 3;
 
     private void Start()
     {
-        theMission = FindObjectOfType<MissionCreate>();
+        Initialize();
+        CreateGenerator();
+        if (missionUI != null)
+        {
+            missionUI.MissionIcon.sprite = missionIcon;
+            missionUI.UpdateMissionUI(currentGen, requireGen);
+
+        }
     }
-    private void Update()
+
+    protected override void Initialize()
     {
-        if (GenerateOn)
-        {
-            anim.SetTrigger("Operation");
-        }
-    }
+        currentGen = 0;
 
-    public void Operation()
+    }
+    private void CreateGenerator()
     {
-        if (GenType == GeneratorType.Common)
+        GameObject[] spawnZone = GameObject.FindGameObjectsWithTag("SpawnZone");
+        List<GameObject> spawnZoneList = spawnZone.OfType<GameObject>().ToList();
+
+        for (int i = 0; i < requireGen; i++)
         {
-            GenerateOn = true;
-            ++theMission.CurrentGenerator;
-            GeneratorLight.SetActive(true);
-            SfxPlayer.Play();
-            theMission.CheckClear();
 
-            Collider[] colls = Physics.OverlapSphere(transform.position, 100f);
+            var spawnZoneIndex = Random.Range(0, spawnZoneList.Count);
+            Vector3 tr = spawnZoneList[spawnZoneIndex].transform.position;
+            Instantiate(generator, tr, Quaternion.identity);
+            spawnZoneList.RemoveAt(spawnZoneIndex);
 
-            foreach (var coll in colls)
-            {
-                var police = coll.GetComponent<EnemyAI>();
-                if (police != null && police.isAware == false)
-                {
-                    police.OnAware();
 
-                }
-            }
         }
-        else if(GenType == GeneratorType.GasCanGenerator)
+    }
+
+    public void UpdateMission()
+    {
+        currentGen++;
+        missionUI.UpdateMissionUI(currentGen, requireGen);
+        if (currentGen == requireGen)
         {
-
-            theMission.CheckClear();
-            if (theMission.isClear)
-            {
-                GenerateOn = true;
-                SfxPlayer.Play();
-            }
-
-
+            MissionClear();
         }
 
     }
+
 }

@@ -4767,9 +4767,10 @@ GameObject:
   - component: {fileID: 3276723304956503386}
   - component: {fileID: 3695580117635615425}
   - component: {fileID: 1271999482885766225}
+  - component: {fileID: -365122561853541311}
   m_Layer: 10
-  m_Name: GasCan
-  m_TagString: Item
+  m_Name: Gascan
+  m_TagString: MissionObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4833,7 +4834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73ff0a74acb398943ba6da434941390f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: ac2071f25a5693943bad7e0b883e3d4c, type: 2}
+  item: {fileID: 0}
 --- !u!114 &1271999482885766225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4852,6 +4853,18 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &-365122561853541311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2500116436511633014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42466b4c910ae3141947d93a7f690392, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3877215313692296764
 GameObject:
   m_ObjectHideFlags: 0

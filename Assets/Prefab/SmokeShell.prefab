@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3523165019433851399}
   - component: {fileID: 3157172947315140824}
   - component: {fileID: 7321743338694074256}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: Trigger
   m_TagString: SmokeTrigger
   m_Icon: {fileID: 0}
@@ -67,10 +67,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6771037943932002259}
   - component: {fileID: 5740962315916859446}
-  - component: {fileID: 1268559911200686396}
   - component: {fileID: 3721888744550449458}
   - component: {fileID: 5119901513087713392}
   - component: {fileID: 2335871559608648625}
+  - component: {fileID: 2042150654497707104}
   m_Layer: 10
   m_Name: SmokeShell
   m_TagString: Untagged
@@ -110,34 +110,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &1268559911200686396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6772468015092808375}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 605cfe8d6a0043d4a8eefb6cb23c07ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Smoke_Effect: {fileID: 6758079861523798853, guid: 904f6606a2752f14c82671d6ff3b3c77,
-    type: 3}
-  Flash_Effect: {fileID: 0}
-  OnGroundSfx:
-  - {fileID: 8300000, guid: b3c03e9688f6d724eaed32e2c17199b0, type: 3}
-  - {fileID: 8300000, guid: a3c2c98a30d5dd84bb465ec4b8ec6780, type: 3}
-  - {fileID: 8300000, guid: f8090d2efa9843941a8933ec9f13d62e, type: 3}
-  EmptyCanSfx:
-  - {fileID: 8300000, guid: d927d01f78b197d479be248527f6177b, type: 3}
-  - {fileID: 8300000, guid: 542d4e21bda968445acac8e533a44a8d, type: 3}
-  - {fileID: 8300000, guid: a679a8744f97ec34ab62f28fbd1d6a77, type: 3}
-  SmokeOut: {fileID: 8300000, guid: 9c5eacd092cecf644929f0f8724aab32, type: 3}
-  FlashOut: {fileID: 0}
-  SoundPlayer: {fileID: 3721888744550449458}
-  ExplodePlayer: {fileID: 5119901513087713392}
-  theThrowWeapon: 2
 --- !u!82 &3721888744550449458
 AudioSource:
   m_ObjectHideFlags: 0
@@ -409,12 +381,32 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6772468015092808375}
-  m_Material: {fileID: 13400000, guid: 04f91734679a777498b327710acfa9de, type: 2}
+  m_Material: {fileID: 13400000, guid: 779c8e82b1009e44796718f5c8d25c39, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.4, y: 1, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2042150654497707104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6772468015092808375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3368eb1e929a0424ca0b7fababbd2bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onGroundAudioPlayer: {fileID: 3721888744550449458}
+  onGroundSfx:
+  - {fileID: 8300000, guid: d927d01f78b197d479be248527f6177b, type: 3}
+  - {fileID: 8300000, guid: 542d4e21bda968445acac8e533a44a8d, type: 3}
+  - {fileID: 8300000, guid: a679a8744f97ec34ab62f28fbd1d6a77, type: 3}
+  smokeEffectObj: {fileID: 0}
+  smokeOutClip: {fileID: 8300000, guid: 9c5eacd092cecf644929f0f8724aab32, type: 3}
+  greandeAudioPlayer: {fileID: 5119901513087713392}
 --- !u!1 &6772753946820931353
 GameObject:
   m_ObjectHideFlags: 0

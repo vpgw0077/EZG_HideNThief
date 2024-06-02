@@ -19,6 +19,7 @@ TagManager:
   - GascanGen
   - GameClear
   - SmokeTrigger
+  - MissionObject
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - DetectZone
   - image
   - Trap
-  - 
+  - SmokeShell
   - 
   - 
   - 

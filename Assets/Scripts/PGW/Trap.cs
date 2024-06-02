@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    public float SirenRange;
-    public bool isActivate = false;
-    public string SirenSfx;
+    [SerializeField] private AudioClip sirenSfx = null;
+    [SerializeField] private AudioSource audioPlayer = null;
 
-    public void SirenTrigger()
+    [SerializeField] private float SirenRange = 70f;
+
+    private void Start()
     {
-        isActivate = true;
-        SoundManager.instance.PlaySE(SirenSfx);
+        audioPlayer.clip = sirenSfx;
+    }
+    private void SirenTrigger()
+    {
+        audioPlayer.Play();
         Collider[] colls = Physics.OverlapSphere(transform.position, SirenRange);
 
         foreach (var coll in colls)
         {
             var police = coll.GetComponent<EnemyAI>();
-            if (police != null && police.isAware == false)
+            if (police != null)
             {
-                police.OnAware();
+                police.ChangeState(EnemyState.Chase);
 
             }
         }
@@ -29,10 +33,7 @@ public class Trap : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (!isActivate)
-            {
-                SirenTrigger();
-            }
+            SirenTrigger();
 
         }
     }

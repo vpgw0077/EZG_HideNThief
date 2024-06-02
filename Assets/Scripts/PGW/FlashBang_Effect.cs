@@ -18,9 +18,9 @@ public class FlashBang_Effect : MonoBehaviour
     }
     IEnumerator DestroyEffect()
     {
-        yield return null;
         gameObject.transform.parent = null;
         ParticlePooling.instance.InsertF_Queue(Flash_Effect);
+        yield return null;
 
     }
 

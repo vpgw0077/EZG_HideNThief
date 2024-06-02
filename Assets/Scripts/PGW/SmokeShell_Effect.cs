@@ -1,35 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class SmokeShell_Effect : MonoBehaviour
 {
-    public ParticleSystem Smoke_Effect = null;
+   [SerializeField] private ParticleSystem smokeEffect = null;
 
     private void OnEnable()
     {
-        if(Smoke_Effect == null)
+        if (smokeEffect == null)
         {
-            Smoke_Effect = GetComponent<ParticleSystem>();
+            smokeEffect = GetComponent<ParticleSystem>();
         }
 
-        Smoke_Effect.Play();
+        StartCoroutine(PlaySmokeEffect());
 
     }
-    IEnumerator DestroyEffect()
+
+    private IEnumerator PlaySmokeEffect()
     {
-        yield return null;
+        smokeEffect.Play();
+        while (smokeEffect.isPlaying)
+        {
+            gameObject.transform.eulerAngles = Vector3.zero;
+            yield return null;
+        }
+        StartCoroutine(DestroySmokeEffect());
+    }
+   private IEnumerator DestroySmokeEffect()
+    {
         gameObject.transform.parent = null;
-        ParticlePooling.instance.InsertQueue(Smoke_Effect);
-        
+        ParticlePooling.instance.InsertQueue(smokeEffect);
+        yield return null;
+
     }
 
-    private void Update()
-    {
-        if (Smoke_Effect.isStopped)
-        {
-            StartCoroutine(DestroyEffect());
-        }
-       gameObject.transform.eulerAngles = Vector3.zero;
-    }
 }

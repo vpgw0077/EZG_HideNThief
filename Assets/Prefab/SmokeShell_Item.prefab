@@ -15,7 +15,7 @@ GameObject:
   m_TagString: DetectZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &8906490681570634770
 Transform:
@@ -60,7 +60,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &6114743129871840894
 Transform:
@@ -137,11 +137,11 @@ GameObject:
   - component: {fileID: 3524365096725849717}
   - component: {fileID: 4664104844938977631}
   m_Layer: 10
-  m_Name: SmokeShell_item
+  m_Name: SmokeShell_Item
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 22
   m_IsActive: 1
 --- !u!4 &6108070763543116938
 Transform:

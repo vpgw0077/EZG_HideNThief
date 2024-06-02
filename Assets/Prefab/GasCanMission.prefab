@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4498192700353269963}
-  - component: {fileID: 6180247377980811877}
+  - component: {fileID: -5340813921543724628}
   m_Layer: 0
   m_Name: GasCanMission
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6180247377980811877
+--- !u!114 &-5340813921543724628
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,15 +40,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5387858771529834069}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9e61006a50bf9bd48b48335a4ecfa41f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c9338682886cbc4ea6099a556406df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Generator: {fileID: 0}
-  CurrentGenerator: 0
-  RequireGenerator: 3
-  GasCan: {fileID: 2500116436511633014, guid: f2942528d6cffc94f8ae151086749d32, type: 3}
-  GasCanGenerator: {fileID: 8673989570774795234, guid: 177067586bc291d42bdfdcc1a7ff5754,
+  missionIcon: {fileID: 21300000, guid: 01fdbe0e5167263468289b65b727f30a, type: 3}
+  anim: {fileID: 0}
+  gasCanGenerator: {fileID: 8673989570774795234, guid: 177067586bc291d42bdfdcc1a7ff5754,
     type: 3}
-  CurrentGascan: 0
-  RequireGascan: 5
-  theMission: 1
+  gasCan: {fileID: 2500116436511633014, guid: f2942528d6cffc94f8ae151086749d32, type: 3}
+  spawnPosition: {fileID: 0}

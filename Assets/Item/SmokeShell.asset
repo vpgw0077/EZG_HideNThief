@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SmokeShell
   m_EditorClassIdentifier: 
   itemType: 4
+  itemID: 2

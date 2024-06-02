@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: FlashBang
   m_EditorClassIdentifier: 
   itemType: 3
+  itemID: 1
