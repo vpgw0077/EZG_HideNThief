@@ -20,7 +20,7 @@ GameObject:
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 22
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &1149034187083912990
 Transform:
@@ -159,7 +159,7 @@ GameObject:
   m_TagString: DetectZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 22
+  m_StaticEditorFlags: 18
   m_IsActive: 1
 --- !u!4 &4960856774187776813
 Transform:
