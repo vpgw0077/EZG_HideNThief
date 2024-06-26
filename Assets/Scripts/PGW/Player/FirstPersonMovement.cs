@@ -12,9 +12,6 @@ public class FirstPersonMovement : MonoBehaviour
 
     [SerializeField] private Equipment_EnergyDrink drinkController = null;
 
-    [SerializeField] private AudioClip[] WalkSound = null;
-    [SerializeField] private AudioSource SoundPlayer = null;
-
     [SerializeField] private float increaseValue = 0.005f;
     [SerializeField] private float decreaseValue = 0.0005f;
 
@@ -48,10 +45,6 @@ public class FirstPersonMovement : MonoBehaviour
     [SerializeField] private float maxSlopeAngle = 0;
     private float currentSlope = 0;
 
-    private readonly float walkSoundPeriod = 0.6f;
-    private readonly float runSoundPeriod = 0.27f;
-    private float currentSoundTime = 0;
-
     private Rigidbody rb = null;
     private CapsuleCollider theCapsule = null;
 
@@ -62,11 +55,13 @@ public class FirstPersonMovement : MonoBehaviour
     private Vector3 boxCastSize = new Vector3(0.3f, 0.05f, 0.3f);
 
     private ItemManager itemManager = null;
+    private PlayerFootStepSound playerFootStepSound = null;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        playerFootStepSound = GetComponent<PlayerFootStepSound>();
         theCapsule = GetComponent<CapsuleCollider>();
         itemManager = GetComponentInChildren<ItemManager>();
         drinkController = GetComponentInChildren<Equipment_EnergyDrink>(true);
@@ -162,28 +157,11 @@ public class FirstPersonMovement : MonoBehaviour
 
             if (isRun)
             {
-                currentSoundTime += Time.deltaTime;
-                if (currentSoundTime >= runSoundPeriod)
-                {
-                    currentSoundTime = 0;
-                    SoundPlayer.clip = WalkSound[UnityEngine.Random.Range(0, WalkSound.Length)];
-                    SoundPlayer.Play();
-
-                }
+                playerFootStepSound.PlayRunSound();
             }
             else
             {
-
-                currentSoundTime += Time.deltaTime;
-                if (currentSoundTime >= walkSoundPeriod)
-                {
-                    currentSoundTime = 0;
-                    SoundPlayer.clip = WalkSound[UnityEngine.Random.Range(0, WalkSound.Length)];
-                    SoundPlayer.Play();
-
-                }
-
-
+                playerFootStepSound.PlayWalkSound();
 
             }
 
