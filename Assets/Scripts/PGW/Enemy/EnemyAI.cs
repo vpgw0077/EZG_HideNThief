@@ -22,6 +22,18 @@ public class EnemyAI : MonoBehaviour
     private float blockCheckRayLength = 3f;
     private float maxStuckCheckTime = 3f;
     private float currentCheckTime = 0;
+    public float CurrentCheckTime
+    {
+        get
+        {
+            return currentCheckTime;
+        }
+
+        set
+        {
+            currentCheckTime = value;
+        }
+    }
 
     private GameObject player = null; // 추격 대상
 
@@ -182,10 +194,10 @@ public class EnemyAI : MonoBehaviour
             anim.SetBool(previousState.ToString(), false);
         }
 
-        if (GameController.instance.awarePoliceList.Contains(this))
+       /*if (GameController.instance.awarePoliceList.Contains(this))
         {
             GameController.instance.RemoveAwaredPolice(this);
-        }
+        }*/
 
         agent.enabled = false;
         anim.SetBool("Stun", true);
@@ -206,7 +218,7 @@ public class EnemyAI : MonoBehaviour
             anim.SetBool(previousState.ToString(), false);
         }
 
-        GameController.instance.AddAwaredPolice(this);
+        //GameController.instance.AddAwaredPolice(this);
 
         agent.speed = enemyData.ChaceSpeed;
         anim.SetBool("Chase", true);
@@ -228,7 +240,7 @@ public class EnemyAI : MonoBehaviour
         if (Vector3.Distance(transform.position, player.transform.position) > enemyData.MaxChaseDistance)
         {
             anim.SetBool("Chase", false);
-            GameController.instance.RemoveAwaredPolice(this);
+            //GameController.instance.RemoveAwaredPolice(this);
             ChangeState(EnemyState.Wander);
 
         }

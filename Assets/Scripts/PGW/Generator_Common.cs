@@ -32,11 +32,10 @@ public class Generator_Common : Generator,IMissionTrigger
 
         foreach (var coll in colls)
         {
-            var police = coll.GetComponent<EnemyAI>();
+            var police = coll.GetComponent<IAlarmRespond>();
             if (police != null)
             {
-                police.ChangeState(EnemyState.Chase);
-
+                police.RespondToAlarm();
             }
         }
     }

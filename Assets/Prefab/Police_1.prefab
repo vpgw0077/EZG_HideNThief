@@ -2424,8 +2424,9 @@ GameObject:
   - component: {fileID: 5734493941979035339}
   - component: {fileID: 4150067171538884138}
   - component: {fileID: 6643415828776234643}
-  - component: {fileID: 39240970574810057}
   - component: {fileID: 1774285612905924791}
+  - component: {fileID: 7467996737365800228}
+  - component: {fileID: 7918739677218838647}
   m_Layer: 9
   m_Name: Police_1
   m_TagString: Enemy
@@ -2512,30 +2513,6 @@ NavMeshAgent:
   m_BaseOffset: -0.1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &39240970574810057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5661470695046499684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed6aeebb88b75b140b216485b8ef0305, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: fa21433f2ab2e2748a4a4fe2f87632c1, type: 2}
-  smokeLayer:
-    serializedVersion: 2
-    m_Bits: 131072
-  walkSound:
-  - {fileID: 8300000, guid: b255f0d42f968b64e954e21ca7f9dbfb, type: 3}
-  - {fileID: 8300000, guid: fe4c834c91345f24f91a63661adb88c5, type: 3}
-  - {fileID: 8300000, guid: 678bf36f002bc524e972925090d03da7, type: 3}
-  - {fileID: 8300000, guid: 4da61acb4c23b6a4da9d5681ce8ded8a, type: 3}
-  - {fileID: 8300000, guid: fe522f0342bf2624f8e087767237a893, type: 3}
-  - {fileID: 8300000, guid: 300cd6d163a53e3458850dc51bac4212, type: 3}
-  soundPlayer: {fileID: 0}
 --- !u!82 &1774285612905924791
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2668,6 +2645,42 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7467996737365800228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661470695046499684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f053e0d164ba8774baaa35f6f073bef6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smokeLayer:
+    serializedVersion: 2
+    m_Bits: 131072
+  enemyData: {fileID: 11400000, guid: fa21433f2ab2e2748a4a4fe2f87632c1, type: 2}
+--- !u!114 &7918739677218838647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661470695046499684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22b51088cd8ca941831bd8673138493, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSound:
+  - {fileID: 8300000, guid: b255f0d42f968b64e954e21ca7f9dbfb, type: 3}
+  - {fileID: 8300000, guid: fe4c834c91345f24f91a63661adb88c5, type: 3}
+  - {fileID: 8300000, guid: 678bf36f002bc524e972925090d03da7, type: 3}
+  - {fileID: 8300000, guid: 4da61acb4c23b6a4da9d5681ce8ded8a, type: 3}
+  - {fileID: 8300000, guid: fe522f0342bf2624f8e087767237a893, type: 3}
+  - {fileID: 8300000, guid: 300cd6d163a53e3458850dc51bac4212, type: 3}
+  soundPlayer: {fileID: 0}
 --- !u!1 &5669473956016739213
 GameObject:
   m_ObjectHideFlags: 0

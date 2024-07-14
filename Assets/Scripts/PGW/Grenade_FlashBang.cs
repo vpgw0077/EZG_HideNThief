@@ -31,10 +31,10 @@ public class Grenade_FlashBang : Grenade, IGrenadeTrigger
 
         foreach (var coll in colls)
         {
-            var police = coll.GetComponent<EnemyAI>();
+            var police = coll.GetComponent<IFlashBangRespond>();
             if (police != null)
             {
-                police.ChangeState(EnemyState.Stun);
+                police.RespondToFlashBang();
 
             }
         }

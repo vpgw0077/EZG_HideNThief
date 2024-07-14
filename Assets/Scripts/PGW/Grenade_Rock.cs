@@ -12,10 +12,10 @@ public class Grenade_Rock : Grenade
 
         foreach (var coll in colls)
         {
-            var police = coll.GetComponent<EnemyAI>();
+            var police = coll.GetComponent<IRockRespond>();
             if (police != null)
             {
-                police.DrawAttention(transform.position);
+                police.RespondToRock(transform.position);
 
             }
         }

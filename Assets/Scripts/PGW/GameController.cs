@@ -19,7 +19,7 @@ public class GameController : MonoBehaviour
 
     public static GameController instance;
 
-    public List<EnemyAI> awarePoliceList = new List<EnemyAI>();
+    public List<BaseEnemy> awarePoliceList = new List<BaseEnemy>();
 
     private bool isGameOver;
     private bool isStop;
@@ -60,7 +60,7 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void AddAwaredPolice(EnemyAI awaredPolice)
+    public void AddAwaredPolice(BaseEnemy awaredPolice)
     {
         if (awarePoliceList.Count == 0)
         {
@@ -69,7 +69,7 @@ public class GameController : MonoBehaviour
         awarePoliceList.Add(awaredPolice);
     }
 
-    public void RemoveAwaredPolice(EnemyAI awaredPolice)
+    public void RemoveAwaredPolice(BaseEnemy awaredPolice)
     {
         awarePoliceList.Remove(awaredPolice);
         if (awarePoliceList.Count == 0)
