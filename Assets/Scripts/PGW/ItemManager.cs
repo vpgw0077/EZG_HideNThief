@@ -19,13 +19,6 @@ public class ItemManager : MonoBehaviour
                                                             // Item의 아이디와 Hierarchy의 장비 순서와 일치해야함 Rock - flashBang - smokeShell - Drink 순
 
 
-    [Space]
-    [SerializeField] private Equipment equipment_Rock = null;
-    [SerializeField] private Equipment equipment_flashBang = null;
-    [SerializeField] private Equipment equipment_smokeShell = null;
-    [SerializeField] private Equipment equipment_energyDrink = null;
-
-
     // Update is called once per frame
     void Update()
     {
@@ -37,27 +30,27 @@ public class ItemManager : MonoBehaviour
         if (Input.GetKeyDown(rock_KeyCode))
         {
 
-            ChangeEquipment(equipment_Rock);
+            ChangeEquipment(equipments[(int)EquipmentType.Rock]);
 
         }
 
         else if (Input.GetKeyDown(flashBang_KeyCode))
         {
 
-            ChangeEquipment(equipment_flashBang);
+            ChangeEquipment(equipments[(int)EquipmentType.FlashBang]);
 
         }
 
         else if (Input.GetKeyDown(smokeShell_KeyCode))
         {
 
-            ChangeEquipment(equipment_smokeShell);
+            ChangeEquipment(equipments[(int)EquipmentType.SmokeShell]);
 
         }
         else if (Input.GetKeyDown(energyDrink_KeyCode))
         {
 
-            ChangeEquipment(equipment_energyDrink);
+            ChangeEquipment(equipments[(int)EquipmentType.Drink]);
 
         }
 
@@ -68,7 +61,6 @@ public class ItemManager : MonoBehaviour
         if (equipments[id].HoldCount == equipments[id].maxCount) return;
 
         equipments[id].HoldCount++;
-        var holdCount = equipments[id].HoldCount;
         item.SetActive(false);
     }
     private void ChangeEquipment(Equipment equipment)

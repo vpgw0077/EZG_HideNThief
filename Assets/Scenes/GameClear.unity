@@ -225,8 +225,8 @@ GameObject:
   - component: {fileID: 58566571}
   - component: {fileID: 58566570}
   - component: {fileID: 58566569}
-  - component: {fileID: 58566573}
   - component: {fileID: 58566574}
+  - component: {fileID: 58566573}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 58566568}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae4548f7499eef4458b0e4661daa84eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 62fa3df14e8443f4cbe03eed6ca78590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &58566574

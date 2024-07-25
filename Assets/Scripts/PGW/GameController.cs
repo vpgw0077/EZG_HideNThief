@@ -11,7 +11,9 @@ public enum GameOverType
 public class GameController : MonoBehaviour
 {
     [SerializeField] private Animator anim = null;
-    [SerializeField] private GameObject OptionUI = null;
+
+    public delegate void OptionUI_EventHandler(bool flag);
+    public OptionUI_EventHandler OptionUIEvent;
 
     public delegate void AwareIcon_EventHandler();
     public AwareIcon_EventHandler WarningIconEvent;
@@ -45,7 +47,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (IsStop)
+            if (isStop)
             {
 
                 Resume();
@@ -66,15 +68,20 @@ public class GameController : MonoBehaviour
         {
             WarningIconEvent?.Invoke();
         }
+        if (awarePoliceList.Contains(awaredPolice)) return;
         awarePoliceList.Add(awaredPolice);
     }
 
     public void RemoveAwaredPolice(BaseEnemy awaredPolice)
     {
-        awarePoliceList.Remove(awaredPolice);
-        if (awarePoliceList.Count == 0)
+        if (awarePoliceList.Contains(awaredPolice))
         {
-            IdleIconEvent?.Invoke();
+            awarePoliceList.Remove(awaredPolice);
+
+            if (awarePoliceList.Count == 0)
+            {
+                IdleIconEvent?.Invoke();
+            }
         }
     }
     public void Resume()
@@ -82,8 +89,8 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        OptionUI.SetActive(false);
-        IsStop = false;
+        isStop = false;
+        OptionUIEvent?.Invoke(isStop);
 
 
     }
@@ -93,8 +100,8 @@ public class GameController : MonoBehaviour
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        OptionUI.SetActive(true);
-        IsStop = true;
+        isStop = true;
+        OptionUIEvent?.Invoke(isStop);
 
 
     }

@@ -5,6 +5,9 @@ using System.Collections;
 
 public class FirstPersonMovement : MonoBehaviour
 {
+    public delegate void SmokeUI_EventHandler(bool isInSmoke);
+    public event SmokeUI_EventHandler SmokeFrameEvent;
+
     public delegate void StaminaUI_EventHandler();
     public event StaminaUI_EventHandler DecreaseStaminaEvent;
     public event StaminaUI_EventHandler IncreaseStaminaEvent;
@@ -27,7 +30,7 @@ public class FirstPersonMovement : MonoBehaviour
     public float Stamina
     {
         get => stamina;
-        set => stamina = Mathf.Clamp(value, 0, 10f);
+        set => stamina = Mathf.Clamp(value, 0, 1f);
     }
     [SerializeField] private float jumpForce = 0;
     [SerializeField] private float recoverTime = 0;
@@ -200,7 +203,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
             else if (Stamina == 0)
             {
-                recoverTime += 0.003f * Time.deltaTime;
+                recoverTime += 0.3f * Time.deltaTime;
             }
         }
         if (recoverTime > 1)
@@ -265,10 +268,7 @@ public class FirstPersonMovement : MonoBehaviour
             }
 
         }
-
         return false;
-
-
     }
 
     private Vector3 GetDirectionOnSlope() // 경사로에서의 이동 방향 계산
@@ -358,5 +358,26 @@ public class FirstPersonMovement : MonoBehaviour
         }
 
         return 7f;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("SmokeTrigger"))
+        {
+            SmokeFrameEvent?.Invoke(true);
+        }
+
+        if (other.CompareTag("GameClear"))
+        {
+            StartCoroutine(GameController.instance.GameOver(GameOverType.Victory));
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("SmokeTrigger"))
+        {
+            SmokeFrameEvent?.Invoke(false);
+        }
     }
 }

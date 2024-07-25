@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EquipmentType
+{
+    Rock,
+    FlashBang,
+    SmokeShell,
+    Drink
+}
 public abstract class Equipment : MonoBehaviour
 {
     public delegate void ItemUse_EventHandler(int id, int currentCount);
     public ItemUse_EventHandler UpdateItemCountEvent;
 
-    public enum EquipmentType
-    {
-        Rock,
-        FlashBang,
-        SmokeShell,
-        Drink
-    }
     [SerializeField] protected EquipmentType equipType = EquipmentType.Rock;
 
     public Animator equipAnim = null;
@@ -55,8 +55,6 @@ public abstract class Equipment : MonoBehaviour
         HoldCount = 3;
         gameObject.SetActive(false);
     }
-    public abstract void EquipOut();
-
 
     public IEnumerator EquipReady()
     {
@@ -87,9 +85,9 @@ public abstract class Equipment : MonoBehaviour
             currentFireRate -= Time.deltaTime;
     }
 
+    public abstract void EquipOut();
     protected abstract void TryUseEquipment();
 
     protected abstract IEnumerator UseEquipment();
-
 
 }

@@ -47,7 +47,7 @@ public class Grenade_SmokeShell : Grenade, IGrenadeTrigger
         yield return setAcitiveFalseTime;
         smokeEffectObj.SetActive(false);
     }
-    // Start is called before the first frame update
+
     protected override void OnCollisionEnter(Collision collision)
     {
         onGroundAudioPlayer.clip = onGroundSfx[Random.Range(0, onGroundSfx.Length)];

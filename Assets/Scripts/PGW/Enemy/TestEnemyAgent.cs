@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-public enum CommonEnemyStateList
+
+public enum TestEnemyStateList
 {
     Wander = 0,
     LookAround,
-    Chase,
-    Stun
+    Chase
+
 }
-public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAlarmRespond
+public class TestEnemyAgent : BaseEnemy
 {
     private float blockCheckRayLength = 3f;
     private float maxStuckCheckTime = 3f;
-    private float normalStoppingDistance = 0;
-    private float smokeStoppingDistance = 7f;
     private bool isInSmoke = false;
     private Vector3 dir2Player = Vector3.zero;
-
     public GameObject Player { get; private set; }
     [SerializeField] private LayerMask smokeLayer;
 
@@ -34,11 +32,11 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
     public NavMeshAgent agent { get; private set; }
     public Vector3 WanderPoint { get; set; }
 
-    private BaseEnemyState<CommonEnemyAgent>[] states = null;
-    private StateMachine<CommonEnemyAgent> stateMachine = null;
+    private BaseEnemyState<TestEnemyAgent>[] states = null;
+    private StateMachine<TestEnemyAgent> stateMachine = null;
 
-    public CommonEnemyStateList CurrentState { get; private set; }
-    public CommonEnemyStateList PreviousState { get; private set; }
+    public TestEnemyStateList CurrentState { get; private set; }
+    public TestEnemyStateList PreviousState { get; private set; }
 
     private void Awake()
     {
@@ -50,14 +48,13 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
     }
     public override void SetUpEnemy()
     {
-        states = new BaseEnemyState<CommonEnemyAgent>[4];
-        states[0] = gameObject.AddComponent<CommonEnemyState.StateWander>();
-        states[1] = gameObject.AddComponent<CommonEnemyState.StateLookAround>();
-        states[2] = gameObject.AddComponent<CommonEnemyState.StateChase>();
-        states[3] = gameObject.AddComponent<CommonEnemyState.StateStun>();
+        states = new BaseEnemyState<TestEnemyAgent>[3];
+        states[0] = gameObject.AddComponent<TestEnemyState.StateWander>();
+        states[1] = gameObject.AddComponent<TestEnemyState.StateLookAround>();
+        states[2] = gameObject.AddComponent<TestEnemyState.StateChase>();
 
-        stateMachine = new StateMachine<CommonEnemyAgent>();
-        stateMachine.Setup(this, states[(int)CommonEnemyStateList.Wander]);
+        stateMachine = new StateMachine<TestEnemyAgent>();
+        stateMachine.Setup(this, states[(int)TestEnemyStateList.Wander]);
     }
 
     private void Update()
@@ -68,7 +65,7 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
     public override void SearchForPlayer() // 플레이어 찾기
     {
 
-        if (CurrentState == CommonEnemyStateList.Chase || CurrentState == CommonEnemyStateList.Stun || isInSmoke) return;
+        if (CurrentState == TestEnemyStateList.Chase || isInSmoke) return;
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position + transform.up * 3f, transform.forward, out hit, enemyData.ViewDistance, smokeLayer)) // 연막탄 안에 있는 플레이어를 감지하지 못하게
@@ -78,15 +75,15 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
 
         dir2Player = Player.transform.position - transform.position;
 
-        if (Vector3.Distance(Player.transform.position, transform.position) > enemyData.ViewDistance) return;
-
         if (Vector3.Angle(transform.forward, dir2Player) > enemyData.Fov) return;
+
+        if (Vector3.Distance(Player.transform.position, transform.position) > enemyData.ViewDistance) return;
 
         if (Physics.Linecast(transform.position, Player.transform.position, out hit)) // Raycast가 아닌 Linecast를 쓰는 이유는 방향은 필요없고 
         {                                                                                 // 시야 범위 내에 플레이어가 있는지만 확인하면 되니까
             if (hit.transform.CompareTag("Player"))
             {
-                ChangeState(CommonEnemyStateList.Chase);
+                ChangeState(TestEnemyStateList.Chase);
             }
         }
     }
@@ -108,7 +105,7 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
             CurrentCheckTime += Time.deltaTime;
             if (CurrentCheckTime >= maxStuckCheckTime)
             {
-                ChangeState(CommonEnemyStateList.Wander);
+                ChangeState(TestEnemyStateList.Wander);
 
             }
         }
@@ -129,34 +126,20 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
         {
             Anim.SetBool("Chase", false);
             GameController.instance.RemoveAwaredPolice(this);
-            ChangeState(CommonEnemyStateList.Wander);
+            ChangeState(TestEnemyStateList.Wander);
 
         }
 
     }
     private float RotationSpeed()
     {
-        if (CurrentState == CommonEnemyStateList.Chase)
+        if (CurrentState == TestEnemyStateList.Chase)
         {
             return 8f;
         }
         return 2f;
     }
-    public void RespondToRock(Vector3 soundSpot) // 플레이어가 돌을 던졌을 때 어그로 끌림
-    {
-        WanderPoint = soundSpot;
-    }
-    public void RespondToFlashBang()
-    {
-        ChangeState(CommonEnemyStateList.Stun);
-    }
-
-    public void RespondToAlarm()
-    {
-        if (CurrentState == CommonEnemyStateList.Stun) return;
-        ChangeState(CommonEnemyStateList.Chase);
-    }
-    public void ChangeState(CommonEnemyStateList state)
+    public void ChangeState(TestEnemyStateList state)
     {
         PreviousState = CurrentState;
         CurrentState = state;
@@ -166,7 +149,7 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
     private void OnCollisionEnter(Collision collision)
     {
 
-        if (CurrentState == CommonEnemyStateList.Chase && !isInSmoke)
+        if (CurrentState == TestEnemyStateList.Chase && !isInSmoke)
         {
             if (collision.transform.CompareTag("Player"))
             {
@@ -182,7 +165,6 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
 
         if (other.CompareTag("SmokeTrigger"))
         {
-            agent.stoppingDistance = smokeStoppingDistance;
             isInSmoke = true;
         }
     }
@@ -191,9 +173,7 @@ public class CommonEnemyAgent : BaseEnemy, IRockRespond, IFlashBangRespond, IAla
     {
         if (other.CompareTag("SmokeTrigger"))
         {
-            agent.stoppingDistance = normalStoppingDistance;
             isInSmoke = false;
         }
     }
-
 }

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CommonEnemyState
+namespace TestEnemyState
 {
-    public class StateWander : BaseEnemyState<CommonEnemyAgent>
+    public class StateWander : BaseEnemyState<TestEnemyAgent>
     {
-        public override void EnterState(CommonEnemyAgent entity)
+        public override void EnterState(TestEnemyAgent entity)
         {
             StartCoroutine(ExecuteState(entity));
         }
-        public override IEnumerator ExecuteState(CommonEnemyAgent entity)
+        public override IEnumerator ExecuteState(TestEnemyAgent entity)
         {
             entity.CurrentCheckTime = 0;
             entity.agent.speed = entity.EnemyData.WanderSpeed;
@@ -21,7 +21,7 @@ namespace CommonEnemyState
                 if (Vector2.Distance(new Vector2(transform.position.x, transform.position.z), new Vector2(entity.WanderPoint.x, entity.WanderPoint.z)) < 1f)
                 {
 
-                    entity.ChangeState(CommonEnemyStateList.LookAround);
+                    entity.ChangeState(TestEnemyStateList.LookAround);
                 }
                 else
                 {
@@ -39,14 +39,14 @@ namespace CommonEnemyState
         }
     }
 
-    public class StateLookAround : BaseEnemyState<CommonEnemyAgent>
+    public class StateLookAround : BaseEnemyState<TestEnemyAgent>
     {
-        public override void EnterState(CommonEnemyAgent entity)
+        public override void EnterState(TestEnemyAgent entity)
         {
             StartCoroutine(ExecuteState(entity));
         }
         private WaitForSeconds lookArondTime = new WaitForSeconds(3.5f);
-        public override IEnumerator ExecuteState(CommonEnemyAgent entity)
+        public override IEnumerator ExecuteState(TestEnemyAgent entity)
         {
             if (entity.agent.enabled == true)
             {
@@ -56,7 +56,7 @@ namespace CommonEnemyState
                 entity.Anim.SetBool("LookAround", false);
                 entity.agent.isStopped = false;
 
-                entity.ChangeState(CommonEnemyStateList.Wander);
+                entity.ChangeState(TestEnemyStateList.Wander);
 
             }
         }
@@ -66,15 +66,15 @@ namespace CommonEnemyState
         }
     }
 
-    public class StateChase : BaseEnemyState<CommonEnemyAgent>
+    public class StateChase : BaseEnemyState<TestEnemyAgent>
     {
-        public override void EnterState(CommonEnemyAgent entity)
+        public override void EnterState(TestEnemyAgent entity)
         {
             StartCoroutine(ExecuteState(entity));
         }
-        public override IEnumerator ExecuteState(CommonEnemyAgent entity)
+        public override IEnumerator ExecuteState(TestEnemyAgent entity)
         {
-            if (entity.PreviousState == CommonEnemyStateList.LookAround)
+            if (entity.PreviousState == TestEnemyStateList.LookAround)
             {
                 entity.agent.isStopped = false;
                 entity.Anim.SetBool(entity.PreviousState.ToString(), false);
@@ -92,43 +92,6 @@ namespace CommonEnemyState
                 yield return null;
 
             }
-        }
-        public override void ExitState()
-        {
-            StopAllCoroutines();
-        }
-    }
-
-    public class StateStun : BaseEnemyState<CommonEnemyAgent>
-    {
-        private string stunAnimName = "Enemy_Stun";
-        private WaitForSeconds stunTime = new WaitForSeconds(5f);
-        public override void EnterState(CommonEnemyAgent entity)
-        {
-            StartCoroutine(ExecuteState(entity));
-        }
-        public override IEnumerator ExecuteState(CommonEnemyAgent entity)
-        {
-            if (entity.Anim.GetCurrentAnimatorStateInfo(0).IsName(stunAnimName)) // 현재 스턴 상태일 때 섬광탄을 또 맞을 시 애니메이션 초기화
-            {
-                entity.Anim.Play(stunAnimName, -1, 0.1f);
-            }
-
-            if (entity.PreviousState != entity.CurrentState && entity.PreviousState != CommonEnemyStateList.Wander)
-            {
-                entity.Anim.SetBool(entity.PreviousState.ToString(), false);
-            }
-
-            GameController.instance.RemoveAwaredPolice(entity);
-
-            entity.agent.enabled = false;
-            entity.Anim.SetBool("Stun", true);
-            yield return stunTime;
-            entity.Anim.SetBool("Stun", false);
-            entity.agent.enabled = true;
-
-            entity.ChangeState(CommonEnemyStateList.LookAround);
-
         }
         public override void ExitState()
         {

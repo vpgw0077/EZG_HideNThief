@@ -13,7 +13,7 @@ public class FlashBang_Effect : MonoBehaviour
             Flash_Effect = GetComponent<ParticleSystem>();
         }
 
-        Flash_Effect.Play();
+        StartCoroutine(PlayEffect());
 
     }
     IEnumerator DestroyEffect()
@@ -23,12 +23,14 @@ public class FlashBang_Effect : MonoBehaviour
         yield return null;
 
     }
-
-    private void Update()
+    IEnumerator PlayEffect()
     {
-        if (Flash_Effect.isStopped)
+        Flash_Effect.Play();
+        while (Flash_Effect.isPlaying)
         {
-            StartCoroutine(DestroyEffect());
+            yield return null;
         }
+        StartCoroutine(DestroyEffect());
     }
+
 }

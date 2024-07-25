@@ -22,13 +22,15 @@ public class PlayerUI : MonoBehaviour
 
     [Space]
     [Header("Values")]
-    [SerializeField] private float decreaseValue = 0.0005f;
+    [SerializeField] private float staminaDecreaseValue = 0.0005f;
+    [SerializeField] private float batteryDecreaseValue = 0.0005f;
     [SerializeField] private float IncreaseValue = 0.005f;
     [SerializeField] private float batteryIncreaseValue = 0.2f;
 
     [Space]
     [Header("etc")]
     [SerializeField] private GameObject KeyGuider = null;
+    [SerializeField] private GameObject OptionUI = null;
 
     private bool isGuideOn = false;
 
@@ -44,6 +46,7 @@ public class PlayerUI : MonoBehaviour
         interactObject.LightOnEvent += DecreaseBattery;
         player.DecreaseStaminaEvent += DecreaseStamina;
         player.IncreaseStaminaEvent += IncreaseStamina;
+        player.SmokeFrameEvent += ToggleSmokeFrame;
         theDrinkController.drinkEvent += UseEnergyDrink;
         for (int i = 0; i < theEquipment.Length; i++)
         {
@@ -55,6 +58,7 @@ public class PlayerUI : MonoBehaviour
     {
         GameController.instance.IdleIconEvent += ChangeIdleIconColor;
         GameController.instance.WarningIconEvent += ChangeWarningIconColor;
+        GameController.instance.OptionUIEvent += ToggleOptionUI;
         Guideon();
     }
     void Update()
@@ -85,7 +89,10 @@ public class PlayerUI : MonoBehaviour
         }
     }
 
-
+    private void ToggleOptionUI(bool flag)
+    {
+        OptionUI.SetActive(flag);
+    }
     private void IncreaseStamina()
     {
         Stamina_Bar.value += IncreaseValue * Time.deltaTime;
@@ -93,11 +100,11 @@ public class PlayerUI : MonoBehaviour
 
     private void DecreaseStamina()
     {
-        Stamina_Bar.value -= decreaseValue * Time.deltaTime;
+        Stamina_Bar.value -= staminaDecreaseValue * Time.deltaTime;
     }
     private void DecreaseBattery()
     {
-        Battery_Bar.value -= decreaseValue * Time.deltaTime;
+        Battery_Bar.value -= batteryDecreaseValue * Time.deltaTime;
     }
 
     private void GetBattery()
@@ -129,27 +136,10 @@ public class PlayerUI : MonoBehaviour
         itemCountText[id].text = holdCount.ToString();
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void ToggleSmokeFrame(bool isInSmoke)
     {
-        if (other.CompareTag("GameClear"))
-        {
-            StartCoroutine(GameController.instance.GameOver(GameOverType.Victory));
-        }
-
-    }
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag("SmokeTrigger"))
-        {
-            SmokeFrame.gameObject.SetActive(true);
-        }
+        SmokeFrame.gameObject.SetActive(isInSmoke);
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("SmokeTrigger"))
-        {
-            SmokeFrame.gameObject.SetActive(false);
-        }
-    }
+
 }

@@ -28,6 +28,7 @@ public class PlayerCam : MonoBehaviour
         }
     }
 
+    
     private void ControlCam()
     {
         mouseX -= Input.GetAxisRaw("Mouse Y") * mouseSensitivity * Time.deltaTime;

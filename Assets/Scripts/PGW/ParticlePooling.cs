@@ -38,6 +38,7 @@ public class ParticlePooling : MonoBehaviour
     {
         F_queue.Enqueue(f_Effect);
         f_Effect.gameObject.SetActive(false);
+
     }
 
     public ParticleSystem GetQueue()

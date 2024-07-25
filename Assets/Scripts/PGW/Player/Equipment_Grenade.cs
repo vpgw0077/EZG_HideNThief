@@ -44,7 +44,7 @@ public class Equipment_Grenade : Equipment
         currentFireRate = 1f;
         yield return usingDelay;
         GameObject grenade = Instantiate(grenadePrefab, throwPos.position, throwPos.rotation);
-        grenade.GetComponent<Rigidbody>().AddForce(transform.forward * throwForce, ForceMode.Impulse);
+        grenade.GetComponent<Rigidbody>().AddForce(throwPos.forward * throwForce, ForceMode.Impulse);
         SoundManager.instance.PlaySE(SfxType.grenadeThrow);
         throwReady = false;
         --HoldCount;

@@ -16,5 +16,5 @@ MonoBehaviour:
   wanderRadius: 20
   wanderSpeed: 0
   chaceSpeed: 0
-  fov: 360
+  fov: 60
   maxChaseDistance: 40
