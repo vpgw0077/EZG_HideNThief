@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d77121929d9b7d143b84ba5d6263a7eb, type: 3}
   m_Name: EnemyData 1
   m_EditorClassIdentifier: 
-  viewDistance: 20
+  viewDistance: 500
   wanderRadius: 20
-  wanderSpeed: 0
-  chaceSpeed: 0
-  fov: 60
+  wanderSpeed: 5
+  chaceSpeed: 10
+  fov: 360
   maxChaseDistance: 40
