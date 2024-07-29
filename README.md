@@ -36,10 +36,16 @@
 
 
 #### 경찰
-- 적 요소로 FSM을 활용한 패턴을 가지고 있다.
+- 적 요소로 FSM을 활용해 패턴을 구현했다.
 - 패턴 : 수색, 추격, 기절
+- 추격 중인 경찰에게 붙잡히면 게임 오버가 되고 일정 거리를 벗어나면 추격을 중단한다.
 
 |![_2024_07_30_00_08_32_218-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/6e35042c-5183-48d0-a529-85567631d51a)|![_2024_07_30_00_09_48_15-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/4f80e799-d5d7-4aa2-b81e-41e2d05f050b)|![_2024_07_30_00_10_57_539-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/c7776cb1-71b0-4b3e-b808-1203b0e4e20b)|
 | :---: |:---:|:---:|
 |정찰 상태| 플레이어 발견 및<br>추격 시작 |기절 상태|
 
+
+#### 미션
+- 발전기 미션과 기름통 미션이 존재하며 랜덤하게 설정된다.
+- 발전기 미션은 맵에 존재하는 3개의 발전기를 가동하는 미션이다.
+- 기름통 미션은 맵에 존재하는 3개의 기름통을 획득한 후 탈출구 주변에 있는 발전기를 가동시키는 미션이다.
