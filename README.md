@@ -24,6 +24,8 @@
 - 플레이어는 스태미너를 소모하여 달릴 수 있고 달리지 않으면 자동으로 스태미너가 회복된다.
 - 손전등은 앞을 비출뿐만 아니라 아이템 탐지 거리가 상승하고 함정을 탐지할 수가 있다. 손전등을 켜면 배터리를 소모하고 아이템을 획득해 충전할 수 있다.
 
+![_2024_07_29_23_59_16_471-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/7020a6d5-17a8-442f-b97a-6800e258af5e)
+
 
 #### 플레이어 장비
 
@@ -32,4 +34,8 @@
 |![r](https://github.com/user-attachments/assets/8a82ed7d-027c-41c1-add3-31a555dc7457)|![fb](https://github.com/user-attachments/assets/53b82198-ba14-4bf4-8a3e-cdf124f3123a)|![ss](https://github.com/user-attachments/assets/cdc52bc2-0da3-4102-98a9-eff84a82bf0a)|![ed](https://github.com/user-attachments/assets/f1643f47-f93c-43e0-80f7-25b57ace1169)|
 |1번 장비로 던진 위치로<br>경찰을 유인하는<br>효과를 가지고 있음|2번 장비로 범위 내<br>경찰을 기절시킴|3번 장비로 플레이어가<br>숨을 수 있는<br>공간을 만들어줌|4번 장비로 사용 시<br>달릴 때 스태미너를 소모하지 않음|
 
+
+#### 경찰
+- 적 요소로 FSM을 활용한 패턴을 가지고 있다.
+- 패턴 : 수색,추격,기절
 
