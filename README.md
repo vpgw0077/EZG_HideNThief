@@ -37,5 +37,9 @@
 
 #### 경찰
 - 적 요소로 FSM을 활용한 패턴을 가지고 있다.
-- 패턴 : 수색,추격,기절
+- 패턴 : 수색, 추격, 기절
+
+|![_2024_07_30_00_08_32_218-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/6e35042c-5183-48d0-a529-85567631d51a)|![_2024_07_30_00_09_48_15-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/4f80e799-d5d7-4aa2-b81e-41e2d05f050b)|![_2024_07_30_00_10_57_539-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/c7776cb1-71b0-4b3e-b808-1203b0e4e20b)|
+| :---: |:---:|:---:|
+|정찰 상태| 플레이어 발견 및<br>추격 시작 |기절 상태|
 
